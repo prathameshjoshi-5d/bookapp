@@ -1,0 +1,9 @@
+com/bookapp/MainActivity.java
+ com.bookapp.MainActivity
+com/bookapp/MainApplication.java
+ com.bookapp.MainApplication
+ com.bookapp.MainApplication$1
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList
+com/bookapp/BuildConfig.java
+ com.bookapp.BuildConfig

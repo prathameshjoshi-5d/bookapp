@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bookApp.iml" filepath="$PROJECT_DIR$/.idea/modules/bookApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/bookApp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/bookApp.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1338986785/bookApp.react-native-async-storage_async-storage.iml" filepath="$PROJECT_DIR$/.idea/modules/1338986785/bookApp.react-native-async-storage_async-storage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/934945606/bookApp.react-native-blob-util.iml" filepath="$PROJECT_DIR$/.idea/modules/934945606/bookApp.react-native-blob-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/296684737/bookApp.react-native-community_netinfo.iml" filepath="$PROJECT_DIR$/.idea/modules/296684737/bookApp.react-native-community_netinfo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/44498836/bookApp.react-native-document-picker.iml" filepath="$PROJECT_DIR$/.idea/modules/44498836/bookApp.react-native-document-picker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/879448125/bookApp.react-native-firebase_app.iml" filepath="$PROJECT_DIR$/.idea/modules/879448125/bookApp.react-native-firebase_app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/746163404/bookApp.react-native-firebase_auth.iml" filepath="$PROJECT_DIR$/.idea/modules/746163404/bookApp.react-native-firebase_auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1855693703/bookApp.react-native-firebase_firestore.iml" filepath="$PROJECT_DIR$/.idea/modules/1855693703/bookApp.react-native-firebase_firestore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/972611735/bookApp.react-native-firebase_storage.iml" filepath="$PROJECT_DIR$/.idea/modules/972611735/bookApp.react-native-firebase_storage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1140218586/bookApp.react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/1140218586/bookApp.react-native-gesture-handler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1122999916/bookApp.react-native-image-picker.iml" filepath="$PROJECT_DIR$/.idea/modules/1122999916/bookApp.react-native-image-picker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1760169708/bookApp.react-native-linear-gradient.iml" filepath="$PROJECT_DIR$/.idea/modules/1760169708/bookApp.react-native-linear-gradient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1295692026/bookApp.react-native-pdf.iml" filepath="$PROJECT_DIR$/.idea/modules/-1295692026/bookApp.react-native-pdf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/613215384/bookApp.react-native-permissions.iml" filepath="$PROJECT_DIR$/.idea/modules/613215384/bookApp.react-native-permissions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1184769219/bookApp.react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/1184769219/bookApp.react-native-safe-area-context.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/318311579/bookApp.react-native-screens.iml" filepath="$PROJECT_DIR$/.idea/modules/318311579/bookApp.react-native-screens.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1887304595/bookApp.react-native-sms.iml" filepath="$PROJECT_DIR$/.idea/modules/-1887304595/bookApp.react-native-sms.iml" />
+    </modules>
+  </component>
+</project>
