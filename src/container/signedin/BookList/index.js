@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -14,8 +14,9 @@ import Header from '../../../components/Header';
 import Loader from '../../../components/Loader';
 import ShowText from '../../../components/Text';
 import firebaseSvc from '../../../config/FirebaseSvc';
-import { BookListStyles } from './indexStyles';
+import {BookListStyles} from './indexStyles';
 import NoData from '../../../components/NoData';
+import {AlertHead} from '../../../common/text';
 
 const Home = props => {
   const itemm = props.route.params;
@@ -57,7 +58,7 @@ const Home = props => {
       })
       .catch(err => {
         console.log('Firebase ERR', err);
-        Alert.alert('Book Store App', 'Something went wrong');
+        Alert.alert(AlertHead, 'Something went wrong');
         setIsLoading(false);
         setIsRefreshing(false);
       });
@@ -65,11 +66,10 @@ const Home = props => {
 
   React.useEffect(() => {
     getAllBooks();
-    AsyncStorage.getItem('IsAdmin')
-      .then(async (res) => {
-        console.log('admin', res)
-        setIsAdmin(res)
-      })
+    AsyncStorage.getItem('IsAdmin').then(async res => {
+      console.log('admin', res);
+      setIsAdmin(res);
+    });
     // AsyncStorage.removeItem('FirebaseUser')
     // .finally(() => {
     //     props.navigation.replace('Login');
@@ -82,14 +82,14 @@ const Home = props => {
         <TouchableOpacity
           onPress={() => props.navigation.navigate('BookDetails', item)}>
           <View style={styles.bookview}>
-            {item.image.includes("http") ?
+            {item.image.includes('http') ? (
               <Image
                 style={styles.image}
                 source={{
                   uri: item.image,
                 }}
               />
-              :
+            ) : (
               <Image
                 style={styles.image}
                 source={{
@@ -99,7 +99,7 @@ const Home = props => {
                       : 'https://imgur.com/MBgwziw.png',
                 }}
               />
-            }
+            )}
             <View style={styles.textview}>
               <ShowText children={item.name} style={styles.text} />
             </View>
@@ -118,11 +118,11 @@ const Home = props => {
           <ShowText children={'Select Book'} style={styles.head} />
           <FlatList
             data={data}
-            renderItem={({ item, index }) => renderItem(item, index)}
+            renderItem={({item, index}) => renderItem(item, index)}
             keyExtractor={(item, index) => index.toString()}
             numColumns={1}
             ListEmptyComponent={<NoData />}
-            contentContainerStyle={{ paddingBottom: 30 }}
+            contentContainerStyle={{paddingBottom: 30}}
             onRefresh={() => {
               setIsRefreshing(true);
               getAllBooks();
@@ -130,15 +130,16 @@ const Home = props => {
             refreshing={isRefreshing}
           />
         </View>
-        {isAdmin != 'null' &&
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => props.navigation.navigate('AddBook', itemm)}>
-          <Image
-            style={styles.plusImg}
-            source={require('../../../assets/images/plus.png')} />
-        </TouchableOpacity>
-}
+        {isAdmin != 'null' && (
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => props.navigation.navigate('AddBook', itemm)}>
+            <Image
+              style={styles.plusImg}
+              source={require('../../../assets/images/plus.png')}
+            />
+          </TouchableOpacity>
+        )}
       </View>
       <Loader loading={isLoading} textshow={'Fetching Data'} />
     </>

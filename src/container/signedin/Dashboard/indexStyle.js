@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Platform, Dimensions } from 'react-native';
+import {StyleSheet, Platform, Dimensions} from 'react-native';
 import color from '../../../common/color';
 
 export const DashboardStyle = () => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -14,8 +14,9 @@ import Header from '../../../components/Header';
 import Loader from '../../../components/Loader';
 import ShowText from '../../../components/Text';
 import firebaseSvc from '../../../config/FirebaseSvc';
-import { UsersStyle } from './indexStyles';
+import {UsersStyle} from './indexStyles';
 import NoData from '../../../components/NoData';
+import {AlertHead} from '../../../common/text';
 
 const Users = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +48,7 @@ const Users = props => {
       })
       .catch(err => {
         console.log('Firebase ERR', err);
-        Alert.alert('Book Store App', 'Something went wrong');
+        Alert.alert(AlertHead, 'Something went wrong');
         setIsLoading(false);
         setIsRefreshing(false);
       });
@@ -55,11 +56,10 @@ const Users = props => {
 
   React.useEffect(() => {
     getAllUsers();
-    AsyncStorage.getItem('IsAdmin')
-      .then(async (res) => {
-        console.log('admin', res)
-        setIsAdmin(res)
-      })
+    AsyncStorage.getItem('IsAdmin').then(async res => {
+      console.log('admin', res);
+      setIsAdmin(res);
+    });
     // AsyncStorage.removeItem('FirebaseUser')
     // .finally(() => {
     //     props.navigation.replace('Login');
@@ -69,11 +69,18 @@ const Users = props => {
   const renderItem = (item, index) => {
     return (
       <View key={item}>
-        <TouchableOpacity
-          onPress={() => console.log('pressed')}>
+        <TouchableOpacity onPress={() => console.log('pressed')}>
           <View style={styles.listingview}>
-            <ShowText children={item._data.name} variant={'large'} style={styles.name} />
-            <ShowText children={item._data.email} variant={'medium'} style={styles.email} />
+            <ShowText
+              children={item._data.name}
+              variant={'large'}
+              style={styles.name}
+            />
+            <ShowText
+              children={item._data.email}
+              variant={'medium'}
+              style={styles.email}
+            />
           </View>
         </TouchableOpacity>
       </View>
@@ -88,11 +95,11 @@ const Users = props => {
         <View style={styles.container}>
           <FlatList
             data={data}
-            renderItem={({ item, index }) => renderItem(item, index)}
+            renderItem={({item, index}) => renderItem(item, index)}
             keyExtractor={(item, index) => index.toString()}
             numColumns={1}
             ListEmptyComponent={<NoData />}
-            contentContainerStyle={{ paddingBottom: 30 }}
+            contentContainerStyle={{paddingBottom: 30}}
             onRefresh={() => {
               setIsRefreshing(true);
               getAllUsers();
@@ -100,13 +107,14 @@ const Users = props => {
             refreshing={isRefreshing}
           />
         </View>
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() => props.navigation.navigate('AddUser')}>
-            <Image
-              style={styles.plusImg}
-              source={require('../../../assets/images/plus.png')} />
-          </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => props.navigation.navigate('AddUser')}>
+          <Image
+            style={styles.plusImg}
+            source={require('../../../assets/images/plus.png')}
+          />
+        </TouchableOpacity>
       </View>
       <Loader loading={isLoading} />
     </>

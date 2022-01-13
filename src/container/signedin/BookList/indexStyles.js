@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import color from '../../../common/color';
-import { SEMIBOLD } from '../../../common/font';
+import {SEMIBOLD} from '../../../common/font';
 
 export const BookListStyles = () => {
   return StyleSheet.create({
@@ -14,7 +14,7 @@ export const BookListStyles = () => {
     },
     head: {
       fontSize: 25,
-      fontFamily: SEMIBOLD
+      fontFamily: SEMIBOLD,
     },
     nobooktext: {
       marginTop: 30,

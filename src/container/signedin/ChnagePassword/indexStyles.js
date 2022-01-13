@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import color from '../../../common/color';
-import { REGULAR } from '../../../common/font';
+import {REGULAR} from '../../../common/font';
 
 export const ChangePasswordStyles = () => {
   return StyleSheet.create({

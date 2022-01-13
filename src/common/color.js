@@ -8,7 +8,7 @@ const color = {
   headerColor: '#ff3399',
   TextColorBlack: '#000',
   TextColorWhite: '#FFF',
-  backgroundColor: '#1ac6ff'
+  backgroundColor: '#1ac6ff',
 };
 
 export default color;

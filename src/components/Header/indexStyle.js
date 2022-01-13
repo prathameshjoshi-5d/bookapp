@@ -1,11 +1,10 @@
 import {Dimensions, Platform, StyleSheet} from 'react-native';
 import color from '../../common/color';
-import { MEDIUM, REGULAR } from '../../common/font';
+import {MEDIUM, REGULAR} from '../../common/font';
 
 export const HeaderStyles = () => {
   return StyleSheet.create({
-    container: {
-    },
+    container: {},
     view: {
       flexDirection: 'row',
       backgroundColor: color.headerColor,
@@ -40,7 +39,7 @@ export const HeaderStyles = () => {
       marginTop: 20,
       color: color.TextColorWhite,
       marginLeft: 15,
-      marginRight: -15
+      marginRight: -15,
       // alignItems:'center',
       // position:'absolute',
       // left:83,
@@ -62,7 +61,7 @@ export const HeaderStyles = () => {
       // flex:0.73
     },
     textl: {
-      fontFamily:REGULAR,
+      fontFamily: REGULAR,
       fontSize: 16,
       marginTop: 20,
       color: color.TextColorWhite,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -14,8 +14,9 @@ import Header from '../../../components/Header';
 import Loader from '../../../components/Loader';
 import ShowText from '../../../components/Text';
 import firebaseSvc from '../../../config/FirebaseSvc';
-import { DashboardStyle } from './indexStyle';
+import {DashboardStyle} from './indexStyle';
 import NoData from '../../../components/NoData';
+import {AlertHead} from '../../../common/text';
 
 const Dashboard = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -47,7 +48,7 @@ const Dashboard = props => {
       })
       .catch(err => {
         console.log('Firebase ERR', err);
-        Alert.alert('Book Store App', 'Something went wrong');
+        Alert.alert(AlertHead, 'Something went wrong');
         setIsLoading(false);
         setIsRefreshing(false);
       });
@@ -69,11 +70,10 @@ const Dashboard = props => {
 
   React.useEffect(() => {
     getAllBooks();
-    AsyncStorage.getItem('IsAdmin')
-      .then(async (res) => {
-        console.log('admin', res)
-        setIsAdmin(res)
-      })
+    AsyncStorage.getItem('IsAdmin').then(async res => {
+      console.log('admin', res);
+      setIsAdmin(res);
+    });
     // AsyncStorage.removeItem('FirebaseUser')
     // .finally(() => {
     //     props.navigation.replace('Login');
@@ -96,7 +96,11 @@ const Dashboard = props => {
   const styles = DashboardStyle();
   return (
     <>
-      <Header {...props} text={'Book Store App'} back={isAdmin != 'null'? true: false} />
+      <Header
+        {...props}
+        text={AlertHead}
+        back={isAdmin != 'null' ? true : false}
+      />
       {/* <View style={{width:'50%',alignSelf:'flex-end'}}>
           <Button
             title="Change Password"
@@ -107,11 +111,11 @@ const Dashboard = props => {
         <View style={styles.container}>
           <FlatList
             data={data}
-            renderItem={({ item, index }) => renderItem(item, index)}
+            renderItem={({item, index}) => renderItem(item, index)}
             keyExtractor={(item, index) => index.toString()}
             numColumns={1}
             ListEmptyComponent={<NoData />}
-            contentContainerStyle={{ paddingBottom: 30 }}
+            contentContainerStyle={{paddingBottom: 30}}
             onRefresh={() => {
               setIsRefreshing(true);
               getAllBooks();
@@ -119,15 +123,16 @@ const Dashboard = props => {
             refreshing={isRefreshing}
           />
         </View>
-        {isAdmin != 'null' &&
+        {isAdmin != 'null' && (
           <TouchableOpacity
             style={styles.addButton}
             onPress={() => props.navigation.navigate('AddCategory')}>
             <Image
               style={styles.plusImg}
-              source={require('../../../assets/images/plus.png')} />
+              source={require('../../../assets/images/plus.png')}
+            />
           </TouchableOpacity>
-        }
+        )}
       </View>
       <Loader loading={isLoading} />
     </>

@@ -18,7 +18,8 @@ const ForgotPassword = props => {
   const [email, setEmail] = useState('');
 
   const submitData = () => {
-    if (isEmpty(email)) {
+    const emailtrim = email.trim();
+    if (isEmpty(emailtrim)) {
       Alert.alert('Email is Required');
       return;
     }
@@ -27,7 +28,7 @@ const ForgotPassword = props => {
       console.log('Is connected?', state.isConnected);
       if (state.isConnected) {
         setIsLoading(true);
-        forgotaccountpassword();
+        forgotaccountpassword(emailtrim);
         setIsLoading(false);
       } else {
         Alert.alert('Please check your internet connection !!!');
@@ -35,8 +36,8 @@ const ForgotPassword = props => {
     });
   };
 
-  const forgotaccountpassword = () => {
-    firebaseSvc.onForgotPassword(email);
+  const forgotaccountpassword = mail => {
+    firebaseSvc.onForgotPassword(mail);
   };
   const styles = ForgotPasswordStyles();
   return (
@@ -64,8 +65,14 @@ const ForgotPassword = props => {
                 setEmail(text);
               }}
             />
-            <TouchableOpacity onPress={() => submitData()} style={{marginTop:20}}>
-              <LinearButton children={'Forgot Password'} variant={'largePlus'} bold />
+            <TouchableOpacity
+              onPress={() => submitData()}
+              style={{marginTop: 20}}>
+              <LinearButton
+                children={'Forgot Password'}
+                variant={'largePlus'}
+                bold
+              />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {

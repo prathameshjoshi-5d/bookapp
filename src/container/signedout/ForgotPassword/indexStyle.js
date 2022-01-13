@@ -45,7 +45,7 @@ export const ForgotPasswordStyles = () => {
     switchscreen: {
       textAlign: 'center',
       marginTop: 20,
-      textDecorationLine: 'underline'
+      textDecorationLine: 'underline',
     },
     image: {
       height: wp('40%'),

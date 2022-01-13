@@ -25,8 +25,8 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import Login from './src/container/signedout/Login';
 import Dashboard from './src/container/signedin/Dashboard';
 import Home from './src/container/signedin/BookList';
@@ -55,20 +55,12 @@ const App = () => {
   const [loading, setLoading] = React.useState(true);
 
   AsyncStorage.getItem('FirebaseUser')
-    .then(async (res) => {
+    .then(async res => {
       setuserToken(res);
-      console.log('FirebaseUser', res , 'YSn9f4uNh6R0pgBIJz10X8ZIFRB3')
-      if (JSON.parse(res) === "YSn9f4uNh6R0pgBIJz10X8ZIFRB3") {
-        await AsyncStorage.setItem(
-          'IsAdmin',
-          res,
-        );
-      }
-      else {
-        await AsyncStorage.setItem(
-          'IsAdmin',
-          'null',
-        );
+      if (JSON.parse(res) === 'YSn9f4uNh6R0pgBIJz10X8ZIFRB3') {
+        await AsyncStorage.setItem('IsAdmin', res);
+      } else {
+        await AsyncStorage.setItem('IsAdmin', 'null');
       }
     })
     .finally(() => {
@@ -79,7 +71,13 @@ const App = () => {
     return (
       <Stack.Navigator
         headerMode="none"
-        initialRouteName={userToken == null ? 'Login' : isAdmin != 'null' ? 'AdminDashboard' : 'Home'}>
+        initialRouteName={
+          userToken == null
+            ? 'Login'
+            : isAdmin != 'null'
+            ? 'AdminDashboard'
+            : 'Home'
+        }>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Forgot" component={ForgotPassword} />
         <Stack.Screen name="AdminDashboard" component={AdminDashboard} />
@@ -102,7 +100,10 @@ const App = () => {
     // <View>
     // <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'}  />
     <NavigationContainer>
-      <StatusBar barStyle={'light-content'} backgroundColor={color.themeColor3} />
+      <StatusBar
+        barStyle={'light-content'}
+        backgroundColor={color.themeColor3}
+      />
       <MyStack />
     </NavigationContainer>
     // </View>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   StyleSheet,
@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Header from '../../../components/Header';
 import ShowText from '../../../components/Text';
-import { BookDetailsStyle } from './indexStyle';
+import {BookDetailsStyle} from './indexStyle';
 
 const BookDetails = props => {
   const data = props.route.params;
@@ -44,14 +44,14 @@ const BookDetails = props => {
     <>
       <Header {...props} back={true} />
       <ScrollView style={styles.container}>
-        {data.image.includes("http") ?
+        {data.image.includes('http') ? (
           <Image
             style={styles.image}
             source={{
               uri: data.image,
             }}
           />
-          :
+        ) : (
           <Image
             style={styles.image}
             source={{
@@ -61,7 +61,7 @@ const BookDetails = props => {
                   : 'https://imgur.com/MBgwziw.png',
             }}
           />
-        }
+        )}
         <ShowText
           children={data?.name}
           variant={'largePlus'}

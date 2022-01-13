@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 import {Formik} from 'formik';
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   TextInput,
   Text,
@@ -23,6 +23,7 @@ import {
   request,
   RESULTS,
   requestMultiple,
+  checkMultiple,
 } from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
 // Firebase Storage to upload file
@@ -37,6 +38,7 @@ import InputText from '../../../components/TextInput';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import isEmpty from '../../../validation/isEmpty';
 import {AddBookStyles} from './indexstyles';
+import {AlertHead} from '../../../common/text';
 
 const AddBookSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
@@ -54,13 +56,63 @@ const AddBook = props => {
   const [file, setFile] = useState('');
   const [fileName, setFileName] = useState('');
   const [permissionGranted, setPermissionGranted] = useState(false);
+  const [permissionGrantedCamera, setPermissionGrantedCamera] = useState(false);
+
+  useEffect(() => {
+    check(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE)
+      .then(result => {
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+            console.log('This feature is not available');
+            break;
+          case RESULTS.DENIED:
+            console.log(
+              'The permission has not been requested / is denied but requestable',
+            );
+            break;
+          case RESULTS.GRANTED:
+            console.log('The permission is granted');
+            setPermissionGranted(true);
+            break;
+          case RESULTS.BLOCKED:
+            console.log('The permission is denied and not requestable anymore');
+            break;
+        }
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+    check(PERMISSIONS.ANDROID.CAMERA)
+      .then(result => {
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+            console.log('This feature is not available');
+            break;
+          case RESULTS.DENIED:
+            console.log(
+              'The permission has not been requested / is denied but requestable',
+            );
+            break;
+          case RESULTS.GRANTED:
+            console.log('The permission is granted');
+            setPermissionGrantedCamera(true);
+            break;
+          case RESULTS.BLOCKED:
+            console.log('The permission is denied and not requestable anymore');
+            break;
+        }
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+  });
 
   const addBook = values => {
     if (isEmpty(image)) {
-      Alert.alert('Book Store App', 'Please select image');
+      Alert.alert(AlertHead, 'Please select image');
     }
     if (isEmpty(file)) {
-      Alert.alert('Book Store App', 'Please select file');
+      Alert.alert(AlertHead, 'Please select file');
     }
     console.log('Connection type', values);
     NetInfo.fetch().then(state => {
@@ -88,12 +140,12 @@ const AddBook = props => {
     props.navigation.replace('Home');
     // .then(async res => {
     //     console.log('Add Firebase Account', res);
-    //     Alert.alert('Book Store App', 'User added successfully');
+    //     Alert.alert(AlertHead, 'User added successfully');
     // })
     // .catch(err => {
     //     console.log('Firebase ERR', err);
     //     Alert.alert(
-    //         'Book Store App',
+    //         AlertHead,
     //         'Something went wrong',
     //     );
     // });
@@ -106,7 +158,7 @@ const AddBook = props => {
     } else messg = 'Please enable camera permissions from Settings';
 
     Platform;
-    Alert.alert('Book Store App', messg, [
+    Alert.alert(AlertHead, messg, [
       {
         text: 'OK',
         onPress: () => {
@@ -208,7 +260,70 @@ const AddBook = props => {
       });
   };
 
+  const checkPermissionCamera = () => {
+    check(
+      Platform.OS === 'ios'
+        ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE
+        : PERMISSIONS.ANDROID.CAMERA,
+    )
+      .then(result => {
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+            console.log('This feature is not available');
+            break;
+          case RESULTS.DENIED:
+            console.log(
+              'The permission has not been requested / is denied but requestable',
+            );
+            Platform.OS === 'ios'
+              ? requestIOSPermission()
+              : requestAndroidCameraPermission();
+            break;
+          case RESULTS.GRANTED:
+            console.log('The permission is granted');
+            setPermissionGrantedCamera(true);
+            break;
+          case RESULTS.BLOCKED:
+            console.log('The permission is denied and not requestable anymore');
+            moveToDeviceSettings();
+            break;
+        }
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+  };
+
+  const requestAndroidCameraPermission = () => {
+    request(PERMISSIONS.ANDROID.CAMERA)
+      .then(result => {
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+            console.log('This feature is not available');
+            setPermissionGrantedCamera(false);
+            break;
+          case RESULTS.DENIED:
+            console.log('The permission has been denied');
+            setPermissionGrantedCamera(false);
+            break;
+          case RESULTS.GRANTED:
+            console.log('The permission is granted');
+            setPermissionGrantedCamera(true);
+            break;
+          case RESULTS.BLOCKED:
+            console.log('The permission is denied and not requestable anymore');
+            setPermissionGrantedCamera(false);
+            break;
+        }
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+  };
+
   const chooseFileCamera = async image => {
+    // Check for Storage Permission
+    checkPermissionCamera();
     var options = {
       //noData: true,
       title: 'Select Image',
@@ -297,7 +412,7 @@ const AddBook = props => {
 
   const _chooseFile = async () => {
     // Check for Storage Permission
-    checkPermission();
+    await checkPermission();
     if (permissionGranted) {
       // Opening Document Picker to select one file
       try {
@@ -341,7 +456,7 @@ const AddBook = props => {
         .putFile(documentUri)
         .then(snapshot => {
           console.log('has been successfully uploaded.', snapshot);
-          Alert.alert('Book Store App', 'File Uploaded Successfully');
+          Alert.alert(AlertHead, 'File Uploaded Successfully');
           let reference = storage().ref(`/${itemm}/${filePath[0].name}`);
           var sampleImage = reference.getDownloadURL().then(function (url) {
             console.log('url', url);

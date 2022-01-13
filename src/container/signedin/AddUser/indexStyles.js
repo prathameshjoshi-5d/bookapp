@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import color from '../../../common/color';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import { REGULAR } from '../../../common/font';
+import {REGULAR} from '../../../common/font';
 
 export const AddUserStyles = () => {
   return StyleSheet.create({
@@ -45,7 +45,7 @@ export const AddUserStyles = () => {
     switchscreen: {
       textAlign: 'center',
       marginTop: 20,
-      textDecorationLine: 'underline'
+      textDecorationLine: 'underline',
     },
     image: {
       height: wp('40%'),

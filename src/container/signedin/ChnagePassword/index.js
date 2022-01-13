@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -8,7 +8,7 @@ import {
   Button,
   Alert,
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import NetInfo from '@react-native-community/netinfo';
 import Header from '../../../components/Header';
 import LinearButton from '../../../components/LinearButton';
@@ -17,7 +17,7 @@ import ShowText from '../../../components/Text';
 import InputText from '../../../components/TextInput';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import isEmpty from '../../../validation/isEmpty';
-import { ChangePasswordStyles } from './indexStyles';
+import {ChangePasswordStyles} from './indexStyles';
 
 const ChangePassword = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,28 +25,34 @@ const ChangePassword = props => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const updatePassword = async () => {
-    if (isEmpty(password)) {
+    const passwordtrim = password.trim();
+    const confirmpasswordtrim = confirmPassword.trim();
+    if (isEmpty(passwordtrim)) {
       Alert.alert('Current Password is Required');
       return;
     }
-    if (isEmpty(confirmPassword)) {
+    if (isEmpty(confirmpasswordtrim)) {
       Alert.alert('New Password is Required');
       return;
     }
+    let bodyObj = {
+      password: passwordtrim,
+      confirmPassword: confirmpasswordtrim,
+    };
     NetInfo.fetch().then(state => {
       console.log('Connection type', state.type);
       console.log('Is connected?', state.isConnected);
       if (state.isConnected) {
         setIsLoading(true);
-        changePass();
+        changePass(bodyObj);
       } else {
         Alert.alert('Please check your internet connection !!!');
       }
     });
   };
 
-  const changePass = () => {
-    firebaseSvc.onUpdatePassword(password, confirmPassword);
+  const changePass = data => {
+    firebaseSvc.onUpdatePassword(data.password, data.confirmPassword);
     setIsLoading(false);
   };
 
@@ -91,7 +97,9 @@ const ChangePassword = props => {
                 setConfirmPassword(text);
               }}
             />
-            <TouchableOpacity onPress={() => updatePassword()} style={{marginTop:20}}>
+            <TouchableOpacity
+              onPress={() => updatePassword()}
+              style={{marginTop: 20}}>
               <LinearButton
                 children={'Change Password'}
                 variant={'largePlus'}

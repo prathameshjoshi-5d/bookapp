@@ -9,17 +9,17 @@ import ShowText from '../Text';
 const LinearButton = props => {
   const commonStyles = fontStyles();
   return (
-      <LinearGradient colors={['#ff3399', '#70db70']}>
-        <ShowText
-          children={props.children}
-          variant={props.variant}
-          style={{
-            padding: 10,
-            textAlign: 'center',
-            color: color.TextColorWhite,
-          }}
-        />
-      </LinearGradient>
+    <LinearGradient colors={['#ff3399', '#70db70']}>
+      <ShowText
+        children={props.children}
+        variant={props.variant}
+        style={{
+          padding: 10,
+          textAlign: 'center',
+          color: color.TextColorWhite,
+        }}
+      />
+    </LinearGradient>
   );
 };
 

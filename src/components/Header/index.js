@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, TouchableOpacity } from 'react-native';
-import { Image, View, Text, Platform, Dimensions } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert, TouchableOpacity} from 'react-native';
+import {Image, View, Text, Platform, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
-import { HeaderStyles } from './indexStyle';
+import {HeaderStyles} from './indexStyle';
+import {AlertHead} from '../../common/text';
 
 const Header = props => {
-
   const [isAdmin, setIsAdmin] = useState(null);
 
-  useEffect(() => { }, [
-    AsyncStorage.getItem('IsAdmin')
-      .then(async (res) => {
-        console.log('admin', res)
-        setIsAdmin(res)
-      })
-  ])
+  useEffect(() => {}, [
+    AsyncStorage.getItem('IsAdmin').then(async res => {
+      // console.log('admin', res);
+      setIsAdmin(res);
+    }),
+  ]);
   const Logout = () => {
-    Alert.alert('Book Store App', 'Are you sure you want to log out?', [
+    Alert.alert(AlertHead, 'Are you sure you want to log out?', [
       {
         text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
+        onPress: () => {},
         // style: "cancel"
       },
       {
@@ -36,17 +35,6 @@ const Header = props => {
             .catch(error => {
               console.log('An error happened when signing out', error);
             });
-          // firebaseSvc
-          //   .onLogout()
-          //   .then(async () => {
-          //     // console.log('Firebase Logout', res);
-          //     AsyncStorage.removeItem('FirebaseUser').finally(() => {
-          //       props.navigation.replace('Login');
-          //     });
-          //   })
-          //   .catch(err => {
-          //     console.log('Firebase ERR', err);
-          //   });
         },
       },
     ]);
@@ -58,17 +46,18 @@ const Header = props => {
         <View style={styles.view}>
           {props.back && (
             <TouchableOpacity onPress={() => props.navigation.goBack()}>
-              <Text style={[styles.textback, { textDecorationLine: 'underline' }]}>
+              <Text
+                style={[styles.textback, {textDecorationLine: 'underline'}]}>
                 {'<'} Back
               </Text>
             </TouchableOpacity>
           )}
-          <View style={{ flexDirection: 'row' }}>
-            {props.back ?
+          <View style={{flexDirection: 'row'}}>
+            {props.back ? (
               <Text style={styles.text}>{props.text}</Text>
-              :
-              <Text style={[styles.text, { marginLeft: 25 }]}>{props.text}</Text>
-            }
+            ) : (
+              <Text style={[styles.text, {marginLeft: 25}]}>{props.text}</Text>
+            )}
           </View>
           {!props.profile ? (
             <TouchableOpacity

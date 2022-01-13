@@ -1,7 +1,7 @@
 import React from 'react';
-import { Dimensions, StyleSheet } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import color from '../../../common/color';
-import { REGULAR } from '../../../common/font';
+import {REGULAR} from '../../../common/font';
 
 export const AddBookStyles = () => {
   return StyleSheet.create({
@@ -32,15 +32,15 @@ export const AddBookStyles = () => {
       marginBottom: 30,
     },
     buttonStyle: {
-      alignItems: "center",
-      backgroundColor: "orange",
+      alignItems: 'center',
+      backgroundColor: 'orange',
       padding: 10,
       width: 300,
       marginVertical: 16,
     },
     buttonTextStyle: {
-      color: "white",
-      fontWeight: "bold",
+      color: 'white',
+      fontWeight: 'bold',
     },
     centeredView: {
       flex: 1,
@@ -115,7 +115,7 @@ export const AddBookStyles = () => {
     error: {
       fontSize: 14,
       color: 'red',
-      fontFamily: REGULAR
+      fontFamily: REGULAR,
     },
   });
 };

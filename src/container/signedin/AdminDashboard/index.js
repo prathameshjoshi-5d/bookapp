@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -14,30 +14,40 @@ import Header from '../../../components/Header';
 import Loader from '../../../components/Loader';
 import ShowText from '../../../components/Text';
 import firebaseSvc from '../../../config/FirebaseSvc';
-import { AdminDashboardStyle } from './indexStyles';
+import {AdminDashboardStyle} from './indexStyles';
+import {AlertHead} from '../../../common/text';
 
 const AdminDashboard = props => {
-
   const styles = AdminDashboardStyle();
   return (
     <>
-      <Header {...props} text={'Book Store App'} />
-      {/* <View style={{width:'50%',alignSelf:'flex-end'}}>
-          <Button
-            title="Change Password"
-            onPress={() => props.navigation.navigate('ChangePassword')}
-          />
-        </View> */}
+      <Header {...props} text={AlertHead} />
       <View style={styles.flex}>
         <View style={styles.container}>
+          <ShowText
+            style={styles.head}
+            children={'Welcome Admin'}
+            variant={'FontBold'}
+            bold
+          />
           <View style={styles.row}>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Users')}
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('Users')}
               style={styles.option}>
-              <ShowText children={'Users'} variant={'large'} style={styles.text} />
+              <ShowText
+                children={'Users'}
+                variant={'large'}
+                style={styles.text}
+              />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => props.navigation.navigate('Home')}
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('Home')}
               style={styles.option}>
-              <ShowText children={'Categories'} variant={'large'} style={styles.text} />
+              <ShowText
+                children={'Categories'}
+                variant={'large'}
+                style={styles.text}
+              />
             </TouchableOpacity>
           </View>
         </View>

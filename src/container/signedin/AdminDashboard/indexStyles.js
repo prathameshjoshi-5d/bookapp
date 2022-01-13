@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Platform, Dimensions } from 'react-native';
+import {StyleSheet, Platform, Dimensions} from 'react-native';
 import color from '../../../common/color';
 
 export const AdminDashboardStyle = () => {
@@ -39,11 +39,17 @@ export const AdminDashboardStyle = () => {
       borderWidth: 1,
       borderRadius: 5,
       alignItems: 'center',
-      width: '50%'
+      width: '50%',
     },
     row: {
-      width:'100%',
-      flexDirection: 'row'
-    }
+      width: '100%',
+      flexDirection: 'row',
+    },
+    head: {
+      textAlign: 'center',
+      fontSize: 26,
+      marginTop: 5,
+      marginBottom: 30,
+    },
   });
 };

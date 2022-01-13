@@ -1,15 +1,15 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SendSMS from 'react-native-sms'
-import { Alert } from 'react-native';
+import SendSMS from 'react-native-sms';
+import {Alert} from 'react-native';
+import {AlertHead} from '../common/text';
 const bookCollections = firestore().collection('Books');
 
 class FirebaseSvc {
-  constructor() { }
+  constructor() {}
 
   login = async user => {
-    console.log('logging in');
     let result = null;
     await auth()
       .signInWithEmailAndPassword(user.email, user.password)
@@ -20,12 +20,12 @@ class FirebaseSvc {
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
           console.log('That email address is already in use!');
-          Alert.alert('Book Store App', 'The email address is already in use!');
+          Alert.alert(AlertHead, 'The email address is already in use!');
         }
 
         if (error.code === 'auth/invalid-email') {
           console.log('That email address is invalid!');
-          Alert.alert('Book Store App', 'The email address is invalid!');
+          Alert.alert(AlertHead, 'The email address is invalid!');
         }
 
         // console.error(error);
@@ -40,35 +40,37 @@ class FirebaseSvc {
       .createUserWithEmailAndPassword(user.email, user.password)
       .then(async data => {
         result = data;
-        console.log(
-          'created user successfully. User email:' +
-          user.email +
-          ' name:' +
-          user.name,
-        );
         let userObj = {
           uid: data.user.uid,
           name: user.name,
           mobile: user.mobile,
           email: user.email,
           password: user.password,
-        }
+        };
         await firestore()
           .collection('Users')
           .doc(data.user.uid)
           .set(userObj) // Change here the object
-          .then((res) => {
+          .then(res => {
             console.log('user added!', res);
-            SendSMS.send({
-              body: `Hello ${userObj.name}. Your account has been created for Book Store App with email ${userObj.email} and password ${userObj.password}. Please install app and login. Greetings 5D Solutions.` ,
-              recipients: [userObj.mobile],
-              successTypes: ['sent', 'queued'],
-              allowAndroidSendWithoutReadPermission: true
-            }, (completed, cancelled, error) => {
-
-              console.log('SMS Callback: completed: ' + completed + ' cancelled: ' + cancelled + 'error: ' + error);
-
-            });
+            SendSMS.send(
+              {
+                body: `Hello ${userObj.name}. Your account has been created for Book Store App with email ${userObj.email} and password ${userObj.password}. Please install app and login. Greetings 5D Solutions.`,
+                recipients: [userObj.mobile],
+                successTypes: ['sent', 'queued'],
+                allowAndroidSendWithoutReadPermission: true,
+              },
+              (completed, cancelled, error) => {
+                console.log(
+                  'SMS Callback: completed: ' +
+                    completed +
+                    ' cancelled: ' +
+                    cancelled +
+                    'error: ' +
+                    error,
+                );
+              },
+            );
           });
       })
       .catch(error => {
@@ -104,7 +106,7 @@ class FirebaseSvc {
           .updatePassword(newPassword)
           .then(res => {
             console.log('Password updated!', res);
-            Alert.alert('Book Store App', 'Password Updated Successfully');
+            Alert.alert(AlertHead, 'Password Updated Successfully');
           })
           .catch(error => {
             console.log(error);
@@ -119,14 +121,14 @@ class FirebaseSvc {
     auth()
       .sendPasswordResetEmail(email)
       .then(res => {
-        Alert.alert('Book Store App', 'Password reset email sent successfully');
+        Alert.alert(AlertHead, 'Password reset email sent successfully');
       })
       .catch(error => {
         console.log('An error happened when signing out', error);
       });
   };
 
-  onDeleteUser = (uid) => {
+  onDeleteUser = uid => {
     auth()
       .deleteUser(uid)
       .then(() => console.log('User Deledted!'))
@@ -149,9 +151,9 @@ class FirebaseSvc {
       .collection('books')
       .doc(category)
       .set({})
-      .then((res) => {
+      .then(res => {
         console.log('Category added!', res);
-        Alert.alert('Book Store App', 'Category Added successfully')
+        Alert.alert(AlertHead, 'Category Added successfully');
       });
   };
 
@@ -161,9 +163,9 @@ class FirebaseSvc {
       .doc(category)
       .collection('data')
       .add(book) // Change here the object
-      .then((res) => {
+      .then(res => {
         console.log('Book added!', res);
-        Alert.alert('Book Store App', 'Book Added successfully')
+        Alert.alert(AlertHead, 'Book Added successfully');
       });
   };
 
@@ -188,7 +190,7 @@ class FirebaseSvc {
         categoryArr.push(documentSnapshot.id);
       });
     });
-    console.log({ categoryArr });
+    console.log({categoryArr});
     await bookCollections
       .doc(item)
       .collection('data')
