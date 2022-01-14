@@ -28,7 +28,7 @@ const Header = props => {
           auth()
             .signOut()
             .then(() =>
-              AsyncStorage.removeItem('FirebaseUser').finally(() => {
+              AsyncStorage.multiRemove(['FirebaseUser','bookOpen']).finally(() => {
                 props.navigation.replace('Login');
               }),
             )

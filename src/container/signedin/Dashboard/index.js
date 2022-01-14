@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
+import {useSelector, useDispatch} from 'react-redux';
 import Header from '../../../components/Header';
 import Loader from '../../../components/Loader';
 import ShowText from '../../../components/Text';
@@ -23,6 +24,9 @@ const Dashboard = props => {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isAdmin, setIsAdmin] = useState('');
   const [data, setData] = useState([]);
+  const [bookData, setBookData] = useState([]);
+
+  // const bookData = useSelector(state => state.auth.openBooks);
 
   const getAllBooks = async () => {
     NetInfo.fetch().then(state => {
@@ -43,6 +47,14 @@ const Dashboard = props => {
       .then(async res => {
         setData(res);
         // console.log('All Book',res );
+        AsyncStorage.getItem('bookOpen')
+          .then(async res => {
+            console.log('boooooks', res);
+            setBookData(JSON.parse(res));
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
         setIsLoading(false);
         setIsRefreshing(false);
       })
@@ -74,6 +86,14 @@ const Dashboard = props => {
       console.log('admin', res);
       setIsAdmin(res);
     });
+    // AsyncStorage.getItem('bookOpen')
+    //   .then(async res => {
+    //     console.log('boooooks', res);
+    //     setBookData(JSON.parse(res));
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false);
+    //   });
     // AsyncStorage.removeItem('FirebaseUser')
     // .finally(() => {
     //     props.navigation.replace('Login');
@@ -87,6 +107,39 @@ const Dashboard = props => {
           onPress={() => props.navigation.navigate('BookList', item)}>
           <View style={styles.listingview}>
             <ShowText children={item} variant={'large'} style={styles.text} />
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  const renderBook = (item, index) => {
+    return (
+      <View>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate('BookDetails', item)}>
+          <View style={styles.bookview}>
+            {item.image.includes('http') ? (
+              <Image
+                style={styles.image}
+                source={{
+                  uri: item.image,
+                }}
+              />
+            ) : (
+              <Image
+                style={styles.image}
+                source={{
+                  uri:
+                    item.image != ''
+                      ? `data:image/gif;base64,${item.image}`
+                      : 'https://imgur.com/MBgwziw.png',
+                }}
+              />
+            )}
+            <View style={styles.textview}>
+              <ShowText children={item.name} style={styles.textbook} />
+            </View>
           </View>
         </TouchableOpacity>
       </View>
@@ -109,6 +162,7 @@ const Dashboard = props => {
         </View> */}
       <View style={styles.flex}>
         <View style={styles.container}>
+          <ShowText children={'Select Category'} style={styles.head} />
           <FlatList
             data={data}
             renderItem={({item, index}) => renderItem(item, index)}
@@ -122,6 +176,22 @@ const Dashboard = props => {
             }}
             refreshing={isRefreshing}
           />
+          {bookData.length != 0 && (
+            <>
+              <ShowText
+                children={'Books you are reading'}
+                style={styles.head}
+              />
+              <FlatList
+                data={bookData}
+                renderItem={({item, index}) => renderBook(item, index)}
+                keyExtractor={(item, index) => index.toString()}
+                numColumns={1}
+                ListEmptyComponent={<NoData />}
+                contentContainerStyle={{paddingBottom: 30}}
+              />
+            </>
+          )}
         </View>
         {isAdmin != 'null' && (
           <TouchableOpacity

@@ -82,7 +82,7 @@ const BookDetails = props => {
           </View>
           <Button
             title="View Book"
-            onPress={() => props.navigation.navigate('Viewpdf', data.file)}
+            onPress={() => props.navigation.navigate('Viewpdf', data)}
           />
         </View>
       </ScrollView>

@@ -27,6 +27,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {Provider} from 'react-redux';
 import Login from './src/container/signedout/Login';
 import Dashboard from './src/container/signedin/Dashboard';
 import Home from './src/container/signedin/BookList';
@@ -40,6 +41,7 @@ import AdminDashboard from './src/container/signedin/AdminDashboard';
 import Users from './src/container/signedin/Users';
 import AddUser from './src/container/signedin/AddUser';
 import AddBook from './src/container/signedin/AddBook';
+import { store } from './src/store';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -51,7 +53,7 @@ const App = () => {
   const Stack = createStackNavigator();
 
   const [userToken, setuserToken] = React.useState(null);
-  const [isAdmin, setIsAdmin] = React.useState('');
+  const [isAdmin, setIsAdmin] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
   AsyncStorage.getItem('FirebaseUser')
@@ -59,6 +61,7 @@ const App = () => {
       setuserToken(res);
       if (JSON.parse(res) === 'YSn9f4uNh6R0pgBIJz10X8ZIFRB3') {
         await AsyncStorage.setItem('IsAdmin', res);
+        setIsAdmin(res)
       } else {
         await AsyncStorage.setItem('IsAdmin', 'null');
       }
@@ -74,7 +77,7 @@ const App = () => {
         initialRouteName={
           userToken == null
             ? 'Login'
-            : isAdmin != 'null'
+            : isAdmin != null
             ? 'AdminDashboard'
             : 'Home'
         }>
@@ -99,13 +102,15 @@ const App = () => {
   ) : (
     // <View>
     // <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'}  />
-    <NavigationContainer>
-      <StatusBar
-        barStyle={'light-content'}
-        backgroundColor={color.themeColor3}
-      />
-      <MyStack />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <StatusBar
+          barStyle={'light-content'}
+          backgroundColor={color.themeColor3}
+        />
+        <MyStack />
+      </NavigationContainer>
+    </Provider>
     // </View>
   );
 };
