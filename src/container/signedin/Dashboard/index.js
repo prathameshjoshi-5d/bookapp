@@ -7,6 +7,7 @@ import {
   Image,
   Button,
   Alert,
+  ScrollView,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
@@ -17,7 +18,7 @@ import ShowText from '../../../components/Text';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import {DashboardStyle} from './indexStyle';
 import NoData from '../../../components/NoData';
-import {AlertHead} from '../../../common/text';
+import {AlertHead} from '../../../common/commonString';
 
 const Dashboard = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -117,7 +118,7 @@ const Dashboard = props => {
     return (
       <View>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate('BookDetails', item)}>
+          onPress={() => props.navigation.navigate('BookDetails', {item: item,Dashboard: true})}>
           <View style={styles.bookview}>
             {item.image.includes('http') ? (
               <Image
@@ -160,7 +161,7 @@ const Dashboard = props => {
             onPress={() => props.navigation.navigate('ChangePassword')}
           />
         </View> */}
-      <View style={styles.flex}>
+      <ScrollView style={styles.flex}>
         <View style={styles.container}>
           <ShowText children={'Select Category'} style={styles.head} />
           <FlatList
@@ -203,7 +204,7 @@ const Dashboard = props => {
             />
           </TouchableOpacity>
         )}
-      </View>
+      </ScrollView>
       <Loader loading={isLoading} />
     </>
   );

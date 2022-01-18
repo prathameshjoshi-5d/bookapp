@@ -15,7 +15,7 @@ import Loader from '../../../components/Loader';
 import ShowText from '../../../components/Text';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import {AdminDashboardStyle} from './indexStyles';
-import {AlertHead} from '../../../common/text';
+import {AlertHead} from '../../../common/commonString';
 
 const AdminDashboard = props => {
   const styles = AdminDashboardStyle();

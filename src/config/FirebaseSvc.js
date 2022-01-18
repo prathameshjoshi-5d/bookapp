@@ -3,7 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SendSMS from 'react-native-sms';
 import {Alert} from 'react-native';
-import {AlertHead} from '../common/text';
+import {AlertHead} from '../common/commonString';
 const bookCollections = firestore().collection('Books');
 
 class FirebaseSvc {
@@ -110,10 +110,18 @@ class FirebaseSvc {
           })
           .catch(error => {
             console.log(error);
+            Alert.alert(
+              AlertHead,
+              'Password Updation failed. Something went wrong !!!',
+            );
           });
       })
       .catch(error => {
         console.log(error);
+        Alert.alert(
+          AlertHead,
+          'Password Updation failed. Something went wrong !!!',
+        );
       });
   };
 
@@ -124,7 +132,11 @@ class FirebaseSvc {
         Alert.alert(AlertHead, 'Password reset email sent successfully');
       })
       .catch(error => {
-        console.log('An error happened when signing out', error);
+        console.log('An error happened when reset password', error);
+        Alert.alert(
+          AlertHead,
+          'Password reset email sent failed. Something went wrong !!!',
+        );
       });
   };
 
@@ -133,7 +145,7 @@ class FirebaseSvc {
       .deleteUser(uid)
       .then(() => console.log('User Deledted!'))
       .catch(error => {
-        console.log('An error happened when signing out', error);
+        console.log('An error happened when deleting user', error);
       });
   };
 
@@ -154,6 +166,13 @@ class FirebaseSvc {
       .then(res => {
         console.log('Category added!', res);
         Alert.alert(AlertHead, 'Category Added successfully');
+      })
+      .catch(error => {
+        console.log('An error happened when adding category', error);
+        Alert.alert(
+          AlertHead,
+          'Category Addition failed. Something went wrong !!!',
+        );
       });
   };
 
@@ -166,6 +185,13 @@ class FirebaseSvc {
       .then(res => {
         console.log('Book added!', res);
         Alert.alert(AlertHead, 'Book Added successfully');
+      })
+      .catch(error => {
+        console.log('An error happened when adding book', error);
+        Alert.alert(
+          AlertHead,
+          'Book Addition failed. Something went wrong !!!',
+        );
       });
   };
 

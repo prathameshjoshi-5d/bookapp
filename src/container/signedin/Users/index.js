@@ -16,7 +16,7 @@ import ShowText from '../../../components/Text';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import {UsersStyle} from './indexStyles';
 import NoData from '../../../components/NoData';
-import {AlertHead} from '../../../common/text';
+import {AlertHead} from '../../../common/commonString';
 
 const Users = props => {
   const [isLoading, setIsLoading] = useState(false);

@@ -4,7 +4,7 @@ import {Image, View, Text, Platform, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import {HeaderStyles} from './indexStyle';
-import {AlertHead} from '../../common/text';
+import {AlertHead} from '../../common/commonString';
 
 const Header = props => {
   const [isAdmin, setIsAdmin] = useState(null);
@@ -28,9 +28,11 @@ const Header = props => {
           auth()
             .signOut()
             .then(() =>
-              AsyncStorage.multiRemove(['FirebaseUser','bookOpen']).finally(() => {
-                props.navigation.replace('Login');
-              }),
+              AsyncStorage.multiRemove(['FirebaseUser', 'bookOpen']).finally(
+                () => {
+                  props.navigation.replace('Login');
+                },
+              ),
             )
             .catch(error => {
               console.log('An error happened when signing out', error);
@@ -46,6 +48,14 @@ const Header = props => {
         <View style={styles.view}>
           {props.back && (
             <TouchableOpacity onPress={() => props.navigation.goBack()}>
+              <Text
+                style={[styles.textback, {textDecorationLine: 'underline'}]}>
+                {'<'} Back
+              </Text>
+            </TouchableOpacity>
+          )}
+          {props.backDashboard && (
+            <TouchableOpacity onPress={() => props.navigation.replace('Home')}>
               <Text
                 style={[styles.textback, {textDecorationLine: 'underline'}]}>
                 {'<'} Back

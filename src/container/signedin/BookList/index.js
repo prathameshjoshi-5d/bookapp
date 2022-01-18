@@ -16,7 +16,7 @@ import ShowText from '../../../components/Text';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import {BookListStyles} from './indexStyles';
 import NoData from '../../../components/NoData';
-import {AlertHead} from '../../../common/text';
+import {AlertHead} from '../../../common/commonString';
 
 const Home = props => {
   const itemm = props.route.params;
@@ -80,7 +80,7 @@ const Home = props => {
     return (
       <View>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate('BookDetails', item)}>
+          onPress={() => props.navigation.navigate('BookDetails', {item: item,Dashboard: false})}>
           <View style={styles.bookview}>
             {item.image.includes('http') ? (
               <Image
@@ -112,7 +112,7 @@ const Home = props => {
   const styles = BookListStyles();
   return (
     <>
-      <Header {...props} text={'Book List'} back={true} />
+      <Header {...props} text={'Book List'} backDashboard={true} />
       <View style={styles.flex}>
         <View style={styles.container}>
           <ShowText children={'Select Book'} style={styles.head} />

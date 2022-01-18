@@ -12,7 +12,7 @@ import InputText from '../../../components/TextInput';
 import ShowText from '../../../components/Text';
 import color from '../../../common/color';
 import LinearButton from '../../../components/LinearButton';
-import {AlertHead} from '../../../common/text';
+import {AlertHead} from '../../../common/commonString';
 
 const Login = props => {
   const [isLoading, setIsLoading] = useState(false);

@@ -14,7 +14,8 @@ import ShowText from '../../../components/Text';
 import {BookDetailsStyle} from './indexStyle';
 
 const BookDetails = props => {
-  const data = props.route.params;
+  const data = props.route.params.item;
+  const dashboard = props.route.params.Dashboard;
 
   // const [data,setData] = useState({});
 
@@ -33,6 +34,7 @@ const BookDetails = props => {
   // };
 
   React.useEffect(() => {
+    console.log('Data', data, dashboard);
     // getAllBooks();
     // AsyncStorage.removeItem('FirebaseUser')
     // .finally(() => {
@@ -42,7 +44,11 @@ const BookDetails = props => {
   const styles = BookDetailsStyle();
   return (
     <>
-      <Header {...props} back={true} />
+      {dashboard ? (
+        <Header {...props} backDashboard={true} />
+      ) : (
+        <Header {...props} back={true} />
+      )}
       <ScrollView style={styles.container}>
         {data.image.includes('http') ? (
           <Image

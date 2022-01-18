@@ -13,7 +13,7 @@ import color from '../../../common/color';
 import LinearButton from '../../../components/LinearButton';
 import {AddUserStyles} from './indexStyles';
 import Header from '../../../components/Header';
-import {AlertHead} from '../../../common/text';
+import {AlertHead} from '../../../common/commonString';
 
 const AddUser = props => {
   const [isLoading, setIsLoading] = useState(false);

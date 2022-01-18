@@ -38,7 +38,7 @@ import InputText from '../../../components/TextInput';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import isEmpty from '../../../validation/isEmpty';
 import {AddBookStyles} from './indexstyles';
-import {AlertHead} from '../../../common/text';
+import {AlertHead} from '../../../common/commonString';
 
 const AddBookSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
@@ -138,17 +138,6 @@ const AddBook = props => {
 
     setLoading(false);
     props.navigation.replace('Home');
-    // .then(async res => {
-    //     console.log('Add Firebase Account', res);
-    //     Alert.alert(AlertHead, 'User added successfully');
-    // })
-    // .catch(err => {
-    //     console.log('Firebase ERR', err);
-    //     Alert.alert(
-    //         AlertHead,
-    //         'Something went wrong',
-    //     );
-    // });
   };
 
   const moveToDeviceSettings = () => {

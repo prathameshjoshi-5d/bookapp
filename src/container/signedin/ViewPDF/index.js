@@ -3,7 +3,7 @@ import {StyleSheet, Dimensions, View, Alert} from 'react-native';
 import Pdf from 'react-native-pdf';
 import {useSelector, useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {AlertHead} from '../../../common/text';
+import {AlertHead} from '../../../common/commonString';
 import Header from '../../../components/Header';
 import {ViewPDFStyles} from './indexStyles';
 
