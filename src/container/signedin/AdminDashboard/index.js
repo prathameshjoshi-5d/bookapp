@@ -1,21 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
-  Text,
   View,
   TouchableOpacity,
-  FlatList,
-  Image,
-  Button,
-  Alert,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import NetInfo from '@react-native-community/netinfo';
 import Header from '../../../components/Header';
-import Loader from '../../../components/Loader';
 import ShowText from '../../../components/Text';
-import firebaseSvc from '../../../config/FirebaseSvc';
-import {AdminDashboardStyle} from './indexStyles';
 import {AlertHead} from '../../../common/commonString';
+import { AdminDashboardStyle } from './index.styles';
 
 const AdminDashboard = props => {
   const styles = AdminDashboardStyle();

@@ -1,4 +1,3 @@
-import React from 'react';
 const isEmpty = value => {
   return (
     value === undefined ||

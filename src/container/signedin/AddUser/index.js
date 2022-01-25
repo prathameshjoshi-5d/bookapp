@@ -1,19 +1,16 @@
 import React, {useState} from 'react';
-import {Image, Button, View, TouchableOpacity, Alert, Text} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {View, TouchableOpacity, Alert} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import NetInfo from '@react-native-community/netinfo';
-import LinearGradient from 'react-native-linear-gradient';
 import isEmpty from '../../../validation/isEmpty';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import Loader from '../../../components/Loader';
 import InputText from '../../../components/TextInput';
 import ShowText from '../../../components/Text';
-import color from '../../../common/color';
 import LinearButton from '../../../components/LinearButton';
-import {AddUserStyles} from './indexStyles';
 import Header from '../../../components/Header';
 import {AlertHead} from '../../../common/commonString';
+import { AddUserStyles } from './index.styles';
 
 const AddUser = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -44,8 +41,6 @@ const AddUser = props => {
       password: password,
     };
     NetInfo.fetch().then(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
       if (state.isConnected) {
         setIsLoading(true);
         AddFirebaseAccount(bodyObj);
@@ -59,7 +54,6 @@ const AddUser = props => {
     firebaseSvc
       .createAccount(data)
       .then(async res => {
-        console.log('Add Firebase Account', res);
         Alert.alert(AlertHead, 'User added successfully');
         setName('');
         setMobile('');
@@ -68,7 +62,6 @@ const AddUser = props => {
         setIsLoading(false);
       })
       .catch(err => {
-        console.log('Firebase ERR', err);
         setIsLoading(false);
         Alert.alert(AlertHead, 'Something went wrong');
       });
@@ -94,7 +87,6 @@ const AddUser = props => {
               bold
             />
             <InputText
-              style={styles.input}
               value={name}
               onChangeText={text => {
                 setName(text);
@@ -106,7 +98,6 @@ const AddUser = props => {
               bold
             />
             <InputText
-              style={styles.input}
               value={mobile}
               onChangeText={text => {
                 setMobile(text);
@@ -118,25 +109,11 @@ const AddUser = props => {
               bold
             />
             <InputText
-              style={styles.input}
               value={email}
               onChangeText={text => {
                 setEmail(text);
               }}
             />
-            {/* <ShowText
-                            children={'Please Enter Your Password'}
-                            variant={'mediumPlus'}
-                            bold
-                        />
-                        <InputText
-                            style={styles.input}
-                            secureTextEntry={true}
-                            value={password}
-                            onChangeText={text => {
-                                setPassword(text);
-                            }}
-                        /> */}
             <TouchableOpacity
               onPress={() => submitData()}
               style={{marginTop: 20}}>

@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {StyleSheet, Dimensions, View, Alert} from 'react-native';
+import {View, Alert} from 'react-native';
 import Pdf from 'react-native-pdf';
 import {useSelector, useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {AlertHead} from '../../../common/commonString';
 import Header from '../../../components/Header';
-import {ViewPDFStyles} from './indexStyles';
+import { ViewPDFStyles } from './index.styles';
 
 const ViewPDF = props => {
   const item = props.route.params;
@@ -55,7 +55,6 @@ const ViewPDF = props => {
       bookArray.splice(ind, 1);
     }
 
-    console.log('book', bookArray);
   };
 
   return (
@@ -65,10 +64,8 @@ const ViewPDF = props => {
         <Pdf
           source={source}
           onLoadComplete={(numberOfPages, filePath) => {
-            console.log(`Number of pages: ${numberOfPages}`);
           }}
           onPageChanged={(page, numberOfPages) => {
-            // console.log(`Current page: ${page}  ${numberOfPages}`);
             // setPage();
             if (page != 1 || page != numberOfPages) {
               addBook(page);
@@ -79,11 +76,9 @@ const ViewPDF = props => {
             setPage();
           }}
           onError={error => {
-            console.log(error);
             Alert.alert(AlertHead, 'Book is not available');
           }}
           onPressLink={uri => {
-            console.log(`Link pressed: ${uri}`);
           }}
           page={item?.page ? item.page : 1}
           style={styles.pdf}

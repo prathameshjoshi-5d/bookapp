@@ -1,18 +1,16 @@
 import React, {useState} from 'react';
-import {Image, Button, View, TouchableOpacity, Alert, Text} from 'react-native';
+import {Image, View, TouchableOpacity, Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import NetInfo from '@react-native-community/netinfo';
-import LinearGradient from 'react-native-linear-gradient';
 import isEmpty from '../../../validation/isEmpty';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import Loader from '../../../components/Loader';
-import {LoginStyles} from './indexStyle';
 import InputText from '../../../components/TextInput';
 import ShowText from '../../../components/Text';
-import color from '../../../common/color';
 import LinearButton from '../../../components/LinearButton';
 import {AlertHead} from '../../../common/commonString';
+import { LoginStyles } from './index.style';
 
 const Login = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -35,8 +33,6 @@ const Login = props => {
       password: passwordtrim,
     };
     NetInfo.fetch().then(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
       if (state.isConnected) {
         setIsLoading(true);
         LoginFirebaseAccount(bodyObj);
@@ -55,7 +51,6 @@ const Login = props => {
     firebaseSvc
       .login(user)
       .then(async res => {
-        console.log('Firebase Login', res);
         await AsyncStorage.setItem(
           'FirebaseUser',
           JSON.stringify(res.user.uid),
@@ -69,7 +64,6 @@ const Login = props => {
         }
       })
       .catch(err => {
-        console.log('Firebase ERR', err);
         Alert.alert(
           AlertHead,
           'Email or Password is incorrect. Please Check!!!',
@@ -102,7 +96,6 @@ const Login = props => {
               bold
             />
             <InputText
-              style={styles.input}
               value={email}
               onChangeText={text => {
                 setEmail(text);
@@ -114,7 +107,6 @@ const Login = props => {
               bold
             />
             <InputText
-              style={styles.input}
               secureTextEntry={true}
               value={password}
               onChangeText={text => {

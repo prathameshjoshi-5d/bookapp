@@ -3,9 +3,7 @@ import {Formik} from 'formik';
 
 import React, {useEffect, useState} from 'react';
 import {
-  TextInput,
   Text,
-  Button,
   Alert,
   View,
   TouchableOpacity,
@@ -17,14 +15,7 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob';
-import {
-  PERMISSIONS,
-  check,
-  request,
-  RESULTS,
-  requestMultiple,
-  checkMultiple,
-} from 'react-native-permissions';
+import {PERMISSIONS, check, request, RESULTS} from 'react-native-permissions';
 import NetInfo from '@react-native-community/netinfo';
 // Firebase Storage to upload file
 import storage from '@react-native-firebase/storage';
@@ -37,8 +28,8 @@ import ShowText from '../../../components/Text';
 import InputText from '../../../components/TextInput';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import isEmpty from '../../../validation/isEmpty';
-import {AddBookStyles} from './indexstyles';
 import {AlertHead} from '../../../common/commonString';
+import { AddBookStyles } from './index.styles';
 
 const AddBookSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
@@ -63,47 +54,33 @@ const AddBook = props => {
       .then(result => {
         switch (result) {
           case RESULTS.UNAVAILABLE:
-            console.log('This feature is not available');
             break;
           case RESULTS.DENIED:
-            console.log(
-              'The permission has not been requested / is denied but requestable',
-            );
             break;
           case RESULTS.GRANTED:
-            console.log('The permission is granted');
             setPermissionGranted(true);
             break;
           case RESULTS.BLOCKED:
-            console.log('The permission is denied and not requestable anymore');
             break;
         }
       })
       .catch(err => {
-        console.log(err.message);
       });
     check(PERMISSIONS.ANDROID.CAMERA)
       .then(result => {
         switch (result) {
           case RESULTS.UNAVAILABLE:
-            console.log('This feature is not available');
             break;
           case RESULTS.DENIED:
-            console.log(
-              'The permission has not been requested / is denied but requestable',
-            );
             break;
           case RESULTS.GRANTED:
-            console.log('The permission is granted');
             setPermissionGrantedCamera(true);
             break;
           case RESULTS.BLOCKED:
-            console.log('The permission is denied and not requestable anymore');
             break;
         }
       })
       .catch(err => {
-        console.log(err.message);
       });
   });
 
@@ -114,10 +91,7 @@ const AddBook = props => {
     if (isEmpty(file)) {
       Alert.alert(AlertHead, 'Please select file');
     }
-    console.log('Connection type', values);
     NetInfo.fetch().then(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
       if (state.isConnected) {
         setLoading(true);
         BookAdd(values);
@@ -157,7 +131,6 @@ const AddBook = props => {
       {
         text: 'Cancel',
         onPress: () => {
-          console.log('cancel pressed');
         },
       },
     ]);
@@ -172,28 +145,21 @@ const AddBook = props => {
       .then(result => {
         switch (result) {
           case RESULTS.UNAVAILABLE:
-            console.log('This feature is not available');
             break;
           case RESULTS.DENIED:
-            console.log(
-              'The permission has not been requested / is denied but requestable',
-            );
             Platform.OS === 'ios'
               ? requestIOSPermission()
               : requestAndroidPermission();
             break;
           case RESULTS.GRANTED:
-            console.log('The permission is granted');
             setPermissionGranted(true);
             break;
           case RESULTS.BLOCKED:
-            console.log('The permission is denied and not requestable anymore');
             moveToDeviceSettings();
             break;
         }
       })
       .catch(err => {
-        console.log(err.message);
       });
   };
 
@@ -202,23 +168,18 @@ const AddBook = props => {
       .then(result => {
         switch (result) {
           case RESULTS.UNAVAILABLE:
-            console.log('This feature is not available');
             break;
           case RESULTS.DENIED:
-            console.log('The permission has been denied');
             break;
           case RESULTS.GRANTED:
-            console.log('The permission is granted');
             getCurrentLocation(true);
             break;
           case RESULTS.BLOCKED:
-            console.log('The permission is denied and not requestable anymore');
             moveToDeviceSettings();
             break;
         }
       })
       .catch(err => {
-        console.log(err.message);
       });
   };
 
@@ -227,25 +188,20 @@ const AddBook = props => {
       .then(result => {
         switch (result) {
           case RESULTS.UNAVAILABLE:
-            console.log('This feature is not available');
             setPermissionGranted(false);
             break;
           case RESULTS.DENIED:
-            console.log('The permission has been denied');
             setPermissionGranted(false);
             break;
           case RESULTS.GRANTED:
-            console.log('The permission is granted');
             setPermissionGranted(true);
             break;
           case RESULTS.BLOCKED:
-            console.log('The permission is denied and not requestable anymore');
             setPermissionGranted(false);
             break;
         }
       })
       .catch(err => {
-        console.log(err.message);
       });
   };
 
@@ -258,28 +214,21 @@ const AddBook = props => {
       .then(result => {
         switch (result) {
           case RESULTS.UNAVAILABLE:
-            console.log('This feature is not available');
             break;
           case RESULTS.DENIED:
-            console.log(
-              'The permission has not been requested / is denied but requestable',
-            );
             Platform.OS === 'ios'
               ? requestIOSPermission()
               : requestAndroidCameraPermission();
             break;
           case RESULTS.GRANTED:
-            console.log('The permission is granted');
             setPermissionGrantedCamera(true);
             break;
           case RESULTS.BLOCKED:
-            console.log('The permission is denied and not requestable anymore');
             moveToDeviceSettings();
             break;
         }
       })
       .catch(err => {
-        console.log(err.message);
       });
   };
 
@@ -288,25 +237,20 @@ const AddBook = props => {
       .then(result => {
         switch (result) {
           case RESULTS.UNAVAILABLE:
-            console.log('This feature is not available');
             setPermissionGrantedCamera(false);
             break;
           case RESULTS.DENIED:
-            console.log('The permission has been denied');
             setPermissionGrantedCamera(false);
             break;
           case RESULTS.GRANTED:
-            console.log('The permission is granted');
             setPermissionGrantedCamera(true);
             break;
           case RESULTS.BLOCKED:
-            console.log('The permission is denied and not requestable anymore');
             setPermissionGrantedCamera(false);
             break;
         }
       })
       .catch(err => {
-        console.log(err.message);
       });
   };
 
@@ -331,20 +275,15 @@ const AddBook = props => {
     };
 
     launchCamera(options, response => {
-      console.log('Response = ', response);
 
       if (response.didCancel) {
-        console.log('User cancelled image picker');
         moveToDeviceSettings();
       } else if (response.errorCode) {
-        console.log('LaunchCamera Error: ', response.errorCode);
         moveToDeviceSettings();
       } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
         alert(response.customButton);
       } else {
         const source = {uri: response.uri};
-        console.log('response of image', console.log(response));
         setImage(response.base64);
       }
       setModalVisible(false);
@@ -372,18 +311,13 @@ const AddBook = props => {
     checkPermission();
     if (permissionGranted) {
       launchImageLibrary(options, response => {
-        console.log('Response = ', response);
 
         if (response.didCancel) {
-          console.log('User cancelled image picker');
         } else if (response.error) {
-          console.log('ImagePicker Error: ', response.error);
         } else if (response.customButton) {
-          console.log('User tapped custom button: ', response.customButton);
           alert(response.customButton);
         } else {
           const source = {uri: response.uri};
-          console.log('launchImageLibrary', response.base64);
           setImage(response.base64);
         }
         setModalVisible(false);
@@ -409,7 +343,6 @@ const AddBook = props => {
           // Provide which type of file you want user to pick
           type: [DocumentPicker.types.pdf],
         });
-        console.log('fileDetails : ' + JSON.stringify(fileDetails));
         // Setting the state for selected File
         setFilePath(fileDetails);
         setLoading(true);
@@ -434,26 +367,20 @@ const AddBook = props => {
       setLoading(true);
 
       // Create Reference
-      console.log('fileDetails to send : ' + JSON.stringify(filePath[0]));
-      console.log(filePath[0].uri.replace('file://', ''));
-      console.log(filePath[0].name);
       const documentUri = await getPathForFirebaseStorage(filePath[0].uri);
-      console.log(documentUri);
       const storageRef = storage().ref();
       await storageRef
         .child(`/${itemm}/${filePath[0].name}`)
         .putFile(documentUri)
         .then(snapshot => {
-          console.log('has been successfully uploaded.', snapshot);
           Alert.alert(AlertHead, 'File Uploaded Successfully');
           let reference = storage().ref(`/${itemm}/${filePath[0].name}`);
           var sampleImage = reference.getDownloadURL().then(function (url) {
-            console.log('url', url);
             setFile(url);
             setFileName(filePath[0].name);
           });
         })
-        .catch(e => console.log('uploading image error => ', e));
+        .catch(e => {});
       // const reference = storage().ref(`/myfiles/${filePath[0].name}`);
 
       // Put File
@@ -468,10 +395,6 @@ const AddBook = props => {
       //     `${taskSnapshot.bytesTransferred} transferred
       //      out of ${taskSnapshot.totalBytes}`,
       //   );
-      //   console.log(
-      //     `${taskSnapshot.bytesTransferred} transferred
-      //      out of ${taskSnapshot.totalBytes}`,
-      //   );
       // });
       // task.then(() => {
       //   alert('Image uploaded to the bucket!');
@@ -479,7 +402,6 @@ const AddBook = props => {
       // });
       setFilePath({});
     } catch (error) {
-      console.log('Error->', error);
       alert(`Error-> ${error}`);
     }
     setLoading(false);
@@ -528,7 +450,6 @@ const AddBook = props => {
                   bold
                 />
                 <InputText
-                  style={styles.input}
                   value={values.name}
                   onChangeText={handleChange('name')}
                   onBlur={() => setFieldTouched('name')}
@@ -546,7 +467,6 @@ const AddBook = props => {
                   bold
                 />
                 <InputText
-                  style={styles.input}
                   value={values.Author}
                   onChangeText={handleChange('Author')}
                   onBlur={() => setFieldTouched('Author')}

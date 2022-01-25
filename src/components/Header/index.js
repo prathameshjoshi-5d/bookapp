@@ -1,18 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, TouchableOpacity} from 'react-native';
-import {Image, View, Text, Platform, Dimensions} from 'react-native';
+import {Image, View, Text} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
-import {HeaderStyles} from './indexStyle';
 import {AlertHead} from '../../common/commonString';
+import { HeaderStyles } from './index.styles';
 
 const Header = props => {
   const [isAdmin, setIsAdmin] = useState(null);
 
   useEffect(() => {}, [
     AsyncStorage.getItem('IsAdmin').then(async res => {
-      // console.log('admin', res);
-      setIsAdmin(res);
     }),
   ]);
   const Logout = () => {
@@ -35,7 +33,6 @@ const Header = props => {
               ),
             )
             .catch(error => {
-              console.log('An error happened when signing out', error);
             });
         },
       },

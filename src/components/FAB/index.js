@@ -1,7 +1,6 @@
 import React from 'react';
-import {Dimensions, View, StyleSheet} from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
-import {FABStyle} from './indexStyle';
+import { Image, TouchableOpacity } from 'react-native';
+import { FABStyle } from './index.styles';
 
 const FAB = props => {
   const styles = FABStyle();
@@ -16,4 +15,4 @@ const FAB = props => {
   );
 };
 
-export default InputText;
+export default FAB;

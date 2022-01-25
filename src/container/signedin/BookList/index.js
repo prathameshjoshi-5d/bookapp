@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
 import {
-  Text,
   View,
   TouchableOpacity,
-  StyleSheet,
   Image,
   FlatList,
   Alert,
@@ -14,9 +12,10 @@ import Header from '../../../components/Header';
 import Loader from '../../../components/Loader';
 import ShowText from '../../../components/Text';
 import firebaseSvc from '../../../config/FirebaseSvc';
-import {BookListStyles} from './indexStyles';
 import NoData from '../../../components/NoData';
 import {AlertHead} from '../../../common/commonString';
+import FAB from '../../../components/FAB';
+import { BookListStyles } from './index.styles';
 
 const Home = props => {
   const itemm = props.route.params;
@@ -24,20 +23,10 @@ const Home = props => {
   const [isAdmin, setIsAdmin] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  //   const [data, setData] = useState([
-  //   {name: 'Martin-Luther-King',image:'https://th.bing.com/th/id/R.4d09b014c0cdf821436b3541f804da55?rik=OH8qT4Rsoa8FxQ&riu=http%3a%2f%2fprodimage.images-bn.com%2fpimages%2f9780313336867_p0_v3_s1200x630.jpg&ehk=nPnz6zHZMubYOGSgY5rvFS%2bEl8YeJSS%2bJxis%2fywNfH4%3d&risl=&pid=ImgRaw&r=0',cat: 'Autobiography'},
-  //   {name: 'Gandhi',image:'https://th.bing.com/th/id/R.135710f0d20e35a81756939e6084960d?rik=iXIhug81GY2EkQ&riu=http%3a%2f%2fapnaorg.com%2fbooks%2fenglish%2fgandhi-biography%2fbook%2fpage0001.gif&ehk=L9Pe2W42rGbE6Uak5%2bEbDpt6yJhCpyJulwm0asdsdVA%3d&risl=&pid=ImgRaw&r=0',cat:'Autobiography'},
-  //   {name: 'Life’s Amazing Secrets_ How to Find Balance and Purpose in Your Life',image:'https://th.bing.com/th/id/OIP.3bZIHa9ETJGlhDl43lEw2wHaHa?w=168&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7',cat:'Psychology'},
-  //   {name: 'Psychology-A-Self-Teaching-Guide-English',image:'https://th.bing.com/th/id/OIP.svcEpNwIXwKQEmEtmhHYGgHaJZ?w=182&h=231&c=7&r=0&o=5&dpr=1.25&pid=1.7',cat:'Psychology'},
-  //   {name: 'Think And Grow Rich',image:'https://images-na.ssl-images-amazon.com/images/I/41q9TI-bUDL._SY344_BO1,204,203,200_.jpg',cat:'Finance'},
-  //   {name: 'Stock investing for Dummies',image:'https://th.bing.com/th/id/OIP.MfX-1lOUJIeRJ3P5dfgDtgHaJ4?w=182&h=243&c=7&r=0&o=5&dpr=1.25&pid=1.7',cat:'Finance'},
-  // ]);
   const [data, setData] = useState([]);
 
   const getAllBooks = async () => {
     NetInfo.fetch().then(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
       if (state.isConnected) {
         setIsLoading(true);
         fetchBookList();
@@ -52,12 +41,10 @@ const Home = props => {
       .onFindAllBooksList(itemm)
       .then(async res => {
         setData(res);
-        // console.log('All Book', data);
         setIsLoading(false);
         setIsRefreshing(false);
       })
       .catch(err => {
-        console.log('Firebase ERR', err);
         Alert.alert(AlertHead, 'Something went wrong');
         setIsLoading(false);
         setIsRefreshing(false);
@@ -67,13 +54,8 @@ const Home = props => {
   React.useEffect(() => {
     getAllBooks();
     AsyncStorage.getItem('IsAdmin').then(async res => {
-      console.log('admin', res);
       setIsAdmin(res);
     });
-    // AsyncStorage.removeItem('FirebaseUser')
-    // .finally(() => {
-    //     props.navigation.replace('Login');
-    // });
   }, []);
 
   const renderItem = (item, index) => {
@@ -131,14 +113,7 @@ const Home = props => {
           />
         </View>
         {isAdmin != 'null' && (
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() => props.navigation.navigate('AddBook', itemm)}>
-            <Image
-              style={styles.plusImg}
-              source={require('../../../assets/images/plus.png')}
-            />
-          </TouchableOpacity>
+          <FAB />
         )}
       </View>
       <Loader loading={isLoading} textshow={'Fetching Data'} />

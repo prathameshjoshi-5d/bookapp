@@ -1,11 +1,7 @@
 import React, {useState} from 'react';
 import {
-  Text,
   View,
   TouchableOpacity,
-  StyleSheet,
-  Image,
-  Button,
   Alert,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -17,7 +13,7 @@ import ShowText from '../../../components/Text';
 import InputText from '../../../components/TextInput';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import isEmpty from '../../../validation/isEmpty';
-import {ChangePasswordStyles} from './indexStyles';
+import { ChangePasswordStyles } from './index.styles';
 
 const ChangePassword = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,8 +36,6 @@ const ChangePassword = props => {
       confirmPassword: confirmpasswordtrim,
     };
     NetInfo.fetch().then(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
       if (state.isConnected) {
         setIsLoading(true);
         changePass(bodyObj);
@@ -77,7 +71,6 @@ const ChangePassword = props => {
               bold
             />
             <InputText
-              style={styles.input}
               secureTextEntry={true}
               value={password}
               onChangeText={text => {
@@ -90,7 +83,6 @@ const ChangePassword = props => {
               bold
             />
             <InputText
-              style={styles.input}
               secureTextEntry={true}
               value={confirmPassword}
               onChangeText={text => {

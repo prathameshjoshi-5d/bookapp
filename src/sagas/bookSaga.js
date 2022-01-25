@@ -1,5 +1,4 @@
-import {call, put, takeEvery, takeLatest} from 'redux-saga/effects';
-import {SET_DATA, SET_TEST} from '../constants/actionTypes';
+import {put, takeLatest} from 'redux-saga/effects';
 
 function* setBooks({payload}) {
   try {

@@ -1,45 +1,19 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
-  Text,
-  StyleSheet,
   View,
   Image,
-  TouchableOpacity,
-  Dimensions,
   ScrollView,
   Button,
 } from 'react-native';
 import Header from '../../../components/Header';
 import ShowText from '../../../components/Text';
-import {BookDetailsStyle} from './indexStyle';
+import {BookDetailsStyle} from './index.styles';
 
 const BookDetails = props => {
   const data = props.route.params.item;
   const dashboard = props.route.params.Dashboard;
 
-  // const [data,setData] = useState({});
-
-  // const getAllBooks = async () => {
-  //   // setIsLoading(true);
-  //   firebaseSvc
-  //     .onFindAllBooks(item.cat,item.name)
-  //     .then(async res => {
-  //       setData(res._docs[0]._data);
-  //       // console.log('All Book',res._docs[0]._data );
-  //       // setIsLoading(false);
-  //     })
-  //     .catch(err => {
-  //       console.log('Firebase ERR', err);
-  //     });
-  // };
-
   React.useEffect(() => {
-    console.log('Data', data, dashboard);
-    // getAllBooks();
-    // AsyncStorage.removeItem('FirebaseUser')
-    // .finally(() => {
-    //     props.navigation.replace('Login');
-    // });
   }, []);
   const styles = BookDetailsStyle();
   return (

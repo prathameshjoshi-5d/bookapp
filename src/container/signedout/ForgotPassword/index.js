@@ -1,17 +1,14 @@
 import React, {useState} from 'react';
-import {Image, Button, View, TouchableOpacity, Alert, Text} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {View, TouchableOpacity, Alert} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import NetInfo from '@react-native-community/netinfo';
-import LinearGradient from 'react-native-linear-gradient';
 import isEmpty from '../../../validation/isEmpty';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import Loader from '../../../components/Loader';
-import {ForgotPasswordStyles} from './indexStyle';
 import InputText from '../../../components/TextInput';
 import ShowText from '../../../components/Text';
-import color from '../../../common/color';
 import LinearButton from '../../../components/LinearButton';
+import { ForgotPasswordStyles } from './index.styles';
 
 const ForgotPassword = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,8 +21,6 @@ const ForgotPassword = props => {
       return;
     }
     NetInfo.fetch().then(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
       if (state.isConnected) {
         setIsLoading(true);
         forgotaccountpassword(emailtrim);
@@ -59,7 +54,6 @@ const ForgotPassword = props => {
               bold
             />
             <InputText
-              style={styles.input}
               value={email}
               onChangeText={text => {
                 setEmail(text);

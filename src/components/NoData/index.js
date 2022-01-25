@@ -1,7 +1,7 @@
 import React from 'react';
-import {Dimensions, View, StyleSheet, Text} from 'react-native';
+import {View} from 'react-native';
 import ShowText from '../Text';
-import {NoDataStyles} from './indexStyles';
+import { NoDataStyles } from './index.styles';
 
 const NoData = props => {
   const styles = NoDataStyles();

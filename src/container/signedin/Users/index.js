@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
 import {
-  Text,
   View,
   TouchableOpacity,
   FlatList,
-  Image,
-  Button,
   Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,9 +11,10 @@ import Header from '../../../components/Header';
 import Loader from '../../../components/Loader';
 import ShowText from '../../../components/Text';
 import firebaseSvc from '../../../config/FirebaseSvc';
-import {UsersStyle} from './indexStyles';
 import NoData from '../../../components/NoData';
 import {AlertHead} from '../../../common/commonString';
+import FAB from '../../../components/FAB';
+import { UsersStyle } from './index.styles';
 
 const Users = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,8 +24,6 @@ const Users = props => {
 
   const getAllUsers = async () => {
     NetInfo.fetch().then(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
       if (state.isConnected) {
         setIsLoading(true);
         fetchUsers();
@@ -42,12 +38,10 @@ const Users = props => {
       .onGetAllUsers()
       .then(async res => {
         setData(res._docs);
-        // console.log('All Users',res._docs );
         setIsLoading(false);
         setIsRefreshing(false);
       })
       .catch(err => {
-        console.log('Firebase ERR', err);
         Alert.alert(AlertHead, 'Something went wrong');
         setIsLoading(false);
         setIsRefreshing(false);
@@ -57,19 +51,14 @@ const Users = props => {
   React.useEffect(() => {
     getAllUsers();
     AsyncStorage.getItem('IsAdmin').then(async res => {
-      console.log('admin', res);
       setIsAdmin(res);
     });
-    // AsyncStorage.removeItem('FirebaseUser')
-    // .finally(() => {
-    //     props.navigation.replace('Login');
-    // });
   }, []);
 
   const renderItem = (item, index) => {
     return (
       <View key={item}>
-        <TouchableOpacity onPress={() => console.log('pressed')}>
+        <TouchableOpacity>
           <View style={styles.listingview}>
             <ShowText
               children={item._data.name}
@@ -107,14 +96,7 @@ const Users = props => {
             refreshing={isRefreshing}
           />
         </View>
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => props.navigation.navigate('AddUser')}>
-          <Image
-            style={styles.plusImg}
-            source={require('../../../assets/images/plus.png')}
-          />
-        </TouchableOpacity>
+        <FAB />
       </View>
       <Loader loading={isLoading} />
     </>

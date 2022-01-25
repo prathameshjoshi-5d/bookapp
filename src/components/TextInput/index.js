@@ -1,7 +1,7 @@
 import React from 'react';
-import {Dimensions, View, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
-import {InputTextStyles} from './indexStyle';
+import { InputTextStyles } from './index.styles';
 
 const InputText = props => {
   const styles = InputTextStyles();

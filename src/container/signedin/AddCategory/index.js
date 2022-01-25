@@ -1,11 +1,7 @@
 import React, {useState} from 'react';
 import {
-  Text,
   View,
   TouchableOpacity,
-  StyleSheet,
-  Image,
-  Button,
   Alert,
 } from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -17,7 +13,7 @@ import ShowText from '../../../components/Text';
 import InputText from '../../../components/TextInput';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import isEmpty from '../../../validation/isEmpty';
-import {AddCategoryStyles} from './indexStyle';
+import { AddCategoryStyles } from './index.styles';
 
 const AddCategory = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,8 +25,6 @@ const AddCategory = props => {
       return;
     }
     NetInfo.fetch().then(state => {
-      console.log('Connection type', state.type);
-      console.log('Is connected?', state.isConnected);
       if (state.isConnected) {
         setIsLoading(true);
         addCat();
@@ -66,7 +60,6 @@ const AddCategory = props => {
               bold
             />
             <InputText
-              style={styles.input}
               value={category}
               onChangeText={text => {
                 setCategory(text);
@@ -80,7 +73,7 @@ const AddCategory = props => {
           </View>
         </KeyboardAwareScrollView>
       </View>
-      <Loader loading={isLoading} textshow={'Changing Password'} />
+      <Loader loading={isLoading} textshow={'Adding Category'} />
     </>
   );
 };

@@ -1,6 +1,5 @@
 import React from 'react';
-import {Dimensions, View, StyleSheet, Text} from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
+import {View,Text} from 'react-native';
 import {fontStyles} from '../../common/font';
 
 const ShowText = props => {
