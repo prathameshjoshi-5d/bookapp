@@ -1,10 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  FlatList,
-  Alert,
-} from 'react-native';
+import {View, TouchableOpacity, FlatList} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import Header from '../../../components/Header';
@@ -12,9 +7,10 @@ import Loader from '../../../components/Loader';
 import ShowText from '../../../components/Text';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import NoData from '../../../components/NoData';
-import {AlertHead} from '../../../common/commonString';
 import FAB from '../../../components/FAB';
-import { UsersStyle } from './index.styles';
+import {UsersStyle} from './index.styles';
+import Container from '../../../components/MainView';
+import ShowFlashMessage from '../../../common/ShowFlashMessage';
 
 const Users = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +24,7 @@ const Users = props => {
         setIsLoading(true);
         fetchUsers();
       } else {
-        Alert.alert('Please check your internet connection !!!');
+        ShowFlashMessage('Please check your internet connection !!!');
       }
     });
   };
@@ -42,7 +38,7 @@ const Users = props => {
         setIsRefreshing(false);
       })
       .catch(err => {
-        Alert.alert(AlertHead, 'Something went wrong');
+        ShowFlashMessage('Something went wrong');
         setIsLoading(false);
         setIsRefreshing(false);
       });
@@ -80,7 +76,7 @@ const Users = props => {
   return (
     <>
       <Header {...props} text={'Users'} back={true} />
-      <View style={styles.flex}>
+      <Container>
         <View style={styles.container}>
           <FlatList
             data={data}
@@ -96,8 +92,8 @@ const Users = props => {
             refreshing={isRefreshing}
           />
         </View>
-        <FAB />
-      </View>
+        <FAB props={props} screen={'AddUser'} />
+      </Container>
       <Loader loading={isLoading} />
     </>
   );

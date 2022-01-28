@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, TouchableOpacity, Alert} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import NetInfo from '@react-native-community/netinfo';
 import isEmpty from '../../../validation/isEmpty';
@@ -9,6 +9,8 @@ import InputText from '../../../components/TextInput';
 import ShowText from '../../../components/Text';
 import LinearButton from '../../../components/LinearButton';
 import { ForgotPasswordStyles } from './index.styles';
+import Container from '../../../components/MainView';
+import ShowFlashMessage from '../../../common/ShowFlashMessage';
 
 const ForgotPassword = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +19,7 @@ const ForgotPassword = props => {
   const submitData = () => {
     const emailtrim = email.trim();
     if (isEmpty(emailtrim)) {
-      Alert.alert('Email is Required');
+      ShowFlashMessage('Email is Required');
       return;
     }
     NetInfo.fetch().then(state => {
@@ -26,7 +28,7 @@ const ForgotPassword = props => {
         forgotaccountpassword(emailtrim);
         setIsLoading(false);
       } else {
-        Alert.alert('Please check your internet connection !!!');
+        ShowFlashMessage('Please check your internet connection !!!');
       }
     });
   };
@@ -37,7 +39,7 @@ const ForgotPassword = props => {
   const styles = ForgotPasswordStyles();
   return (
     <>
-      <View style={styles.flex}>
+      <Container>
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps="handled"
           scrollEnabled={true}>
@@ -61,7 +63,7 @@ const ForgotPassword = props => {
             />
             <TouchableOpacity
               onPress={() => submitData()}
-              style={{marginTop: 20}}>
+              style={{marginTop: 10}}>
               <LinearButton
                 children={'Forgot Password'}
                 variant={'largePlus'}
@@ -80,7 +82,7 @@ const ForgotPassword = props => {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
-      </View>
+      </Container>
       <Loader loading={isLoading} textshow={'Sending Email'} />
     </>
   );

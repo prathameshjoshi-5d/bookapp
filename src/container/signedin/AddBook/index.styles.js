@@ -1,28 +1,27 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import color from '../../../common/color';
 import {REGULAR} from '../../../common/font';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 export const AddBookStyles = () => {
   return StyleSheet.create({
-    flex: {
-      backgroundColor: color.backgroundColor,
-      flex: 1,
-    },
     container: {
-      marginHorizontal: 15,
+      marginHorizontal: wp('5%'),
     },
     head: {
       textAlign: 'center',
-      fontSize: 26,
-      marginTop: 5,
-      marginBottom: 30,
+      fontSize: wp('6.5%'),
+      marginTop: hp('5%'),
+      marginBottom: hp('3%'),
     },
     buttonStyle: {
       alignItems: 'center',
       backgroundColor: 'orange',
-      padding: 10,
-      width: 300,
-      marginVertical: 16,
+      padding: wp('1%'),
+      width: wp('70%'),
+      marginVertical: hp('2%'),
     },
     buttonTextStyle: {
       color: 'white',
@@ -32,74 +31,41 @@ export const AddBookStyles = () => {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: 22,
       backgroundColor: 'rgba(0,0,0,0.3)',
     },
     modalView: {
-      // margin: 20,
       backgroundColor: 'white',
-      borderRadius: 20,
-      padding: 15,
+      borderRadius: wp('5%'),
+      padding: wp('5%'),
       width: Dimensions.get('screen').width - 30,
-      // alignItems: "center",
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
     },
     button: {
-      borderRadius: 20,
-      padding: 10,
-      // elevation: 2,
-      // marginHorizontal:20,
-      marginBottom: 5,
+      borderRadius: wp('20%'),
+      padding: wp('2%'),
+      marginBottom: hp('1%'),
     },
     button1: {
-      borderRadius: 20,
-      padding: 10,
-      // elevation: 2,
-      // marginHorizontal:20,
-      marginBottom: 5,
+      borderRadius: wp('20%'),
+      padding: wp('2%'),
+      marginBottom: hp('1%'),
       alignSelf: 'flex-end',
-    },
-    buttonOpen: {
-      // backgroundColor: "#3BA749",
-    },
-    buttonClose: {
-      // backgroundColor: "#3BA749",
     },
     textStyle: {
       color: 'black',
-      // fontWeight: "bold",
-      // textAlign: "center"
     },
     modalText: {
       marginBottom: 25,
-      // marginLeft:20,
       fontWeight: 'bold',
-      // textAlign: "center"
     },
     image: {
       height: Dimensions.get('screen').height / 3,
     },
     camera: {
-      // marginTop:-120,
       position: 'absolute',
-      // flex:0.35,
-      // height:67,
-      // width:67,
-      // marginLeft:-30,
-      // marginRight: 0,
       right: Dimensions.DEVICE_HEIGHT < 680 ? -9 : -5,
-      // top: -5
       alignSelf: 'flex-end',
     },
     error: {
-      fontSize: 14,
       color: 'red',
       fontFamily: REGULAR,
     },

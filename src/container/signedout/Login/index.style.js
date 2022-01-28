@@ -7,29 +7,24 @@ import {
 
 export const LoginStyles = () => {
   return StyleSheet.create({
-    flex: {
-      backgroundColor: color.backgroundColor,
-      flex: 1,
-    },
     container: {
-      marginHorizontal: 15,
+      marginHorizontal: wp('5%'),
     },
     head: {
       textAlign: 'center',
-      fontSize: 22,
-      marginTop: 20,
+      marginTop: hp('5%'),
       color: color.themeColor4,
     },
     appname: {
       textAlign: 'center',
-      fontSize: 26,
-      marginTop: 5,
-      marginBottom: 30,
+      fontSize: wp('6.5%'),
+      marginTop: hp('5%'),
+      marginBottom: hp('2%'),
       color: color.themeColor1,
     },
     switchscreen: {
       textAlign: 'center',
-      marginTop: 20,
+      marginTop: hp('2%'),
       textDecorationLine: 'underline',
     },
     image: {
@@ -37,8 +32,7 @@ export const LoginStyles = () => {
       width: wp('60%'),
     },
     imageView: {
-      marginTop: 25,
-      marginBottom: 10,
+      marginTop: hp('5%'),
       alignItems: 'center',
     },
   });

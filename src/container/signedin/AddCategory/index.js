@@ -1,9 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import NetInfo from '@react-native-community/netinfo';
 import Header from '../../../components/Header';
@@ -13,7 +9,9 @@ import ShowText from '../../../components/Text';
 import InputText from '../../../components/TextInput';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import isEmpty from '../../../validation/isEmpty';
-import { AddCategoryStyles } from './index.styles';
+import {AddCategoryStyles} from './index.styles';
+import Container from '../../../components/MainView';
+import ShowFlashMessage from '../../../common/ShowFlashMessage';
 
 const AddCategory = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +19,7 @@ const AddCategory = props => {
 
   const categoryAdd = async () => {
     if (isEmpty(category)) {
-      Alert.alert('Category is Required');
+      ShowFlashMessage('Category is Required');
       return;
     }
     NetInfo.fetch().then(state => {
@@ -29,7 +27,7 @@ const AddCategory = props => {
         setIsLoading(true);
         addCat();
       } else {
-        Alert.alert('Please check your internet connection !!!');
+        ShowFlashMessage('Please check your internet connection !!!');
       }
     });
   };
@@ -43,7 +41,7 @@ const AddCategory = props => {
   return (
     <>
       <Header {...props} text={'Add Category'} back={true} />
-      <View style={styles.flex}>
+      <Container>
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps="handled"
           scrollEnabled={true}>
@@ -72,7 +70,7 @@ const AddCategory = props => {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
-      </View>
+      </Container>
       <Loader loading={isLoading} textshow={'Adding Category'} />
     </>
   );

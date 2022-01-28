@@ -1,8 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import SendSMS from 'react-native-sms';
-import {Alert} from 'react-native';
-import {AlertHead} from '../common/commonString';
+import ShowFlashMessage from '../common/ShowFlashMessage';
 const bookCollections = firestore().collection('Books');
 
 class FirebaseSvc {
@@ -17,11 +16,11 @@ class FirebaseSvc {
       })
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
-          Alert.alert(AlertHead, 'The email address is already in use!');
+          ShowFlashMessage('The email address is already in use!');
         }
 
         if (error.code === 'auth/invalid-email') {
-          Alert.alert(AlertHead, 'The email address is invalid!');
+          ShowFlashMessage('The email address is invalid!');
         }
 
         // console.error(error);
@@ -88,20 +87,16 @@ class FirebaseSvc {
         user
           .updatePassword(newPassword)
           .then(res => {
-            Alert.alert(AlertHead, 'Password Updated Successfully');
+            ShowFlashMessage('Password Updated Successfully');
           })
           .catch(error => {
-            Alert.alert(
-              AlertHead,
+            ShowFlashMessage(
               'Password Updation failed. Something went wrong !!!',
             );
           });
       })
       .catch(error => {
-        Alert.alert(
-          AlertHead,
-          'Password Updation failed. Something went wrong !!!',
-        );
+        ShowFlashMessage('Password Updation failed. Something went wrong !!!');
       });
   };
 
@@ -109,11 +104,10 @@ class FirebaseSvc {
     auth()
       .sendPasswordResetEmail(email)
       .then(res => {
-        Alert.alert(AlertHead, 'Password reset email sent successfully');
+        ShowFlashMessage('Password reset email sent successfully');
       })
       .catch(error => {
-        Alert.alert(
-          AlertHead,
+        ShowFlashMessage(
           'Password reset email sent failed. Something went wrong !!!',
         );
       });
@@ -139,13 +133,10 @@ class FirebaseSvc {
       .doc(category)
       .set({})
       .then(res => {
-        Alert.alert(AlertHead, 'Category Added successfully');
+        ShowFlashMessage('Category Added successfully');
       })
       .catch(error => {
-        Alert.alert(
-          AlertHead,
-          'Category Addition failed. Something went wrong !!!',
-        );
+        ShowFlashMessage('Category Addition failed. Something went wrong !!!');
       });
   };
 
@@ -156,13 +147,10 @@ class FirebaseSvc {
       .collection('data')
       .add(book) // Change here the object
       .then(res => {
-        Alert.alert(AlertHead, 'Book Added successfully');
+        ShowFlashMessage('Book Added successfully');
       })
       .catch(error => {
-        Alert.alert(
-          AlertHead,
-          'Book Addition failed. Something went wrong !!!',
-        );
+        ShowFlashMessage('Book Addition failed. Something went wrong !!!');
       });
   };
 

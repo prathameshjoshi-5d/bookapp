@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Image, View, TouchableOpacity, Alert} from 'react-native';
+import {Image, View, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import NetInfo from '@react-native-community/netinfo';
@@ -10,7 +10,9 @@ import InputText from '../../../components/TextInput';
 import ShowText from '../../../components/Text';
 import LinearButton from '../../../components/LinearButton';
 import {AlertHead} from '../../../common/commonString';
-import { LoginStyles } from './index.style';
+import {LoginStyles} from './index.style';
+import Container from '../../../components/MainView';
+import ShowFlashMessage from '../../../common/ShowFlashMessage';
 
 const Login = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,11 +23,11 @@ const Login = props => {
     const emailtrim = email.trim();
     const passwordtrim = password.trim();
     if (isEmpty(emailtrim)) {
-      Alert.alert('Email is Required');
+      ShowFlashMessage('Email is Required');
       return;
     }
     if (isEmpty(passwordtrim)) {
-      Alert.alert('Password is Required');
+      ShowFlashMessage('Password is Required');
       return;
     }
     let bodyObj = {
@@ -36,9 +38,8 @@ const Login = props => {
       if (state.isConnected) {
         setIsLoading(true);
         LoginFirebaseAccount(bodyObj);
-        setIsLoading(false);
       } else {
-        Alert.alert('Please check your internet connection !!!');
+        ShowFlashMessage('Please check your internet connection !!!');
       }
     });
   };
@@ -55,6 +56,7 @@ const Login = props => {
           'FirebaseUser',
           JSON.stringify(res.user.uid),
         );
+        setIsLoading(false);
         if (res.user.uid === 'YSn9f4uNh6R0pgBIJz10X8ZIFRB3') {
           await AsyncStorage.setItem('IsAdmin', res.user.uid);
           props.navigation.replace('AdminDashboard');
@@ -64,16 +66,14 @@ const Login = props => {
         }
       })
       .catch(err => {
-        Alert.alert(
-          AlertHead,
-          'Email or Password is incorrect. Please Check!!!',
-        );
+        setIsLoading(false);
+        ShowFlashMessage('Email or Password is incorrect. Please Check!!!');
       });
   };
   const styles = LoginStyles();
   return (
     <>
-      <View style={styles.flex}>
+      <Container>
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps="handled"
           scrollEnabled={true}>
@@ -130,7 +130,7 @@ const Login = props => {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
-      </View>
+      </Container>
       <Loader loading={isLoading} textshow={'Logging in'} />
     </>
   );

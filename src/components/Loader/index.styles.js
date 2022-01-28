@@ -27,7 +27,7 @@ export const LoaderStyle = () => {
     viewTwo: {
       justifyContent: 'center',
       alignItems: 'center',
-      height: hp('20%'),
+      height: hp('15%'),
       width: wp('40%'),
       backgroundColor: color.textColorWhite,
       borderRadius: wp('1%'),

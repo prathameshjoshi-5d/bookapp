@@ -9,8 +9,9 @@ import InputText from '../../../components/TextInput';
 import ShowText from '../../../components/Text';
 import LinearButton from '../../../components/LinearButton';
 import Header from '../../../components/Header';
-import {AlertHead} from '../../../common/commonString';
-import { AddUserStyles } from './index.styles';
+import {AddUserStyles} from './index.styles';
+import Container from '../../../components/MainView';
+import ShowFlashMessage from '../../../common/ShowFlashMessage';
 
 const AddUser = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -23,15 +24,15 @@ const AddUser = props => {
     const mobiletrim = mobile.trim();
     const emailtrim = email.trim();
     if (isEmpty(name)) {
-      Alert.alert('Name is Required');
+      ShowFlashMessage('Name is Required');
       return;
     }
     if (isEmpty(mobiletrim)) {
-      Alert.alert('Mobile is Required');
+      ShowFlashMessage('Mobile is Required');
       return;
     }
     if (isEmpty(emailtrim)) {
-      Alert.alert('Email is Required');
+      ShowFlashMessage('Email is Required');
       return;
     }
     let bodyObj = {
@@ -45,7 +46,7 @@ const AddUser = props => {
         setIsLoading(true);
         AddFirebaseAccount(bodyObj);
       } else {
-        Alert.alert('Please check your internet connection !!!');
+        ShowFlashMessage('Please check your internet connection !!!');
       }
     });
   };
@@ -54,7 +55,7 @@ const AddUser = props => {
     firebaseSvc
       .createAccount(data)
       .then(async res => {
-        Alert.alert(AlertHead, 'User added successfully');
+        ShowFlashMessage('User added successfully');
         setName('');
         setMobile('');
         setEmail('');
@@ -63,16 +64,16 @@ const AddUser = props => {
       })
       .catch(err => {
         setIsLoading(false);
-        Alert.alert(AlertHead, 'Something went wrong');
+        ShowFlashMessage('Something went wrong');
       });
   };
   const styles = AddUserStyles();
   return (
     <>
       <Header {...props} text={'Add User'} back={true} />
-      <View style={styles.flex}>
+      <Container>
         <KeyboardAwareScrollView
-          keyboardShouldPersistTaps="handled"
+          keyboardShouldPersistTaps="handlViewed"
           scrollEnabled={true}>
           <View style={styles.container}>
             <ShowText
@@ -121,8 +122,8 @@ const AddUser = props => {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
-      </View>
-      <Loader loading={isLoading} textshow={'Logging in'} />
+      </Container>
+      <Loader loading={isLoading} textshow={'Adding user'} />
     </>
   );
 };

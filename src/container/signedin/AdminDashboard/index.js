@@ -7,13 +7,14 @@ import Header from '../../../components/Header';
 import ShowText from '../../../components/Text';
 import {AlertHead} from '../../../common/commonString';
 import { AdminDashboardStyle } from './index.styles';
+import Container from '../../../components/MainView';
 
 const AdminDashboard = props => {
   const styles = AdminDashboardStyle();
   return (
     <>
       <Header {...props} text={AlertHead} />
-      <View style={styles.flex}>
+      <Container>
         <View style={styles.container}>
           <ShowText
             style={styles.head}
@@ -42,7 +43,7 @@ const AdminDashboard = props => {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+        </Container>
     </>
   );
 };

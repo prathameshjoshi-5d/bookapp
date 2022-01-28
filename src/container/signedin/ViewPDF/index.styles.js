@@ -6,7 +6,6 @@ export const ViewPDFStyles = () => {
       flex: 1,
       justifyContent: 'flex-start',
       alignItems: 'center',
-      marginTop: 25,
     },
     pdf: {
       flex: 1,

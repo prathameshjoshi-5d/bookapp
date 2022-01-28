@@ -1,54 +1,35 @@
-import {StyleSheet, Platform, Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 import color from '../../../common/color';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 export const AdminDashboardStyle = () => {
   return StyleSheet.create({
-    flex: {
-      backgroundColor: color.backgroundColor,
-      flex: 1,
-    },
     container: {
-      marginHorizontal: 15,
-    },
-    listingview: {
-      marginTop: 10,
-      backgroundColor: 'lightgrey',
-      borderColor: 'grey',
-      borderWidth: 1,
-      borderRadius: 5,
-      justifyContent: 'center',
+      marginHorizontal: wp('5%'),
     },
     text: {
-      padding: 10,
+      padding: wp('2%'),
       color: color.textColorBlack,
     },
-    addButton: {
-      right: 20,
-      position: 'absolute',
-      bottom: 20,
-    },
-    plusImg: {
-      width: 60,
-      height: 60,
-    },
     option: {
-      marginTop: 10,
+      marginTop: hp('2%'),
       backgroundColor: 'lightgrey',
       borderColor: 'grey',
-      borderWidth: 1,
-      borderRadius: 5,
+      borderWidth: hp('0.2%'),
+      borderRadius: wp('1%'),
       alignItems: 'center',
       width: '50%',
     },
     row: {
-      width: '100%',
       flexDirection: 'row',
     },
     head: {
       textAlign: 'center',
-      fontSize: 26,
-      marginTop: 5,
-      marginBottom: 30,
+      marginBottom: hp('4%'),
+      fontSize: wp('6.5%'),
     },
   });
 };

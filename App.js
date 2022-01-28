@@ -7,14 +7,9 @@
  */
 
 import React from 'react';
-import {
-  StatusBar,
-  useColorScheme,
-} from 'react-native';
+import {StatusBar, useColorScheme} from 'react-native';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -32,7 +27,8 @@ import AdminDashboard from './src/container/signedin/AdminDashboard';
 import Users from './src/container/signedin/Users';
 import AddUser from './src/container/signedin/AddUser';
 import AddBook from './src/container/signedin/AddBook';
-import { store } from './src/store';
+import {store} from './src/store';
+import FlashMessage from 'react-native-flash-message';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -52,7 +48,7 @@ const App = () => {
       setuserToken(res);
       if (JSON.parse(res) === 'YSn9f4uNh6R0pgBIJz10X8ZIFRB3') {
         await AsyncStorage.setItem('IsAdmin', res);
-        setIsAdmin(res)
+        setIsAdmin(res);
       } else {
         await AsyncStorage.setItem('IsAdmin', 'null');
       }
@@ -91,18 +87,19 @@ const App = () => {
   return loading ? (
     <></>
   ) : (
-    // <View>
-    // <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'}  />
-    <Provider store={store}>
-      <NavigationContainer>
-        <StatusBar
-          barStyle={'light-content'}
-          backgroundColor={color.themeColor3}
-        />
-        <MyStack />
-      </NavigationContainer>
-    </Provider>
-    // </View>
+    <>
+      {/* <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} /> */}
+      <Provider store={store}>
+        <NavigationContainer>
+          <StatusBar
+            barStyle={'light-content'}
+            backgroundColor={color.themeColor3}
+          />
+          <MyStack />
+        </NavigationContainer>
+      </Provider>
+      <FlashMessage position="top" autoHide={true} />
+    </>
   );
 };
 

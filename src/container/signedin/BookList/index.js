@@ -1,11 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Image,
-  FlatList,
-  Alert,
-} from 'react-native';
+import {View, TouchableOpacity, Image, FlatList} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import Header from '../../../components/Header';
@@ -13,9 +7,10 @@ import Loader from '../../../components/Loader';
 import ShowText from '../../../components/Text';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import NoData from '../../../components/NoData';
-import {AlertHead} from '../../../common/commonString';
 import FAB from '../../../components/FAB';
-import { BookListStyles } from './index.styles';
+import {BookListStyles} from './index.styles';
+import Container from '../../../components/MainView';
+import ShowFlashMessage from '../../../common/ShowFlashMessage';
 
 const Home = props => {
   const itemm = props.route.params;
@@ -31,7 +26,7 @@ const Home = props => {
         setIsLoading(true);
         fetchBookList();
       } else {
-        Alert.alert('Please check your internet connection !!!');
+        ShowFlashMessage('Please check your internet connection !!!');
       }
     });
   };
@@ -45,7 +40,7 @@ const Home = props => {
         setIsRefreshing(false);
       })
       .catch(err => {
-        Alert.alert(AlertHead, 'Something went wrong');
+        ShowFlashMessage('Something went wrong');
         setIsLoading(false);
         setIsRefreshing(false);
       });
@@ -62,7 +57,12 @@ const Home = props => {
     return (
       <View>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate('BookDetails', {item: item,Dashboard: false})}>
+          onPress={() =>
+            props.navigation.navigate('BookDetails', {
+              item: item,
+              Dashboard: false,
+            })
+          }>
           <View style={styles.bookview}>
             {item.image.includes('http') ? (
               <Image
@@ -83,7 +83,12 @@ const Home = props => {
               />
             )}
             <View style={styles.textview}>
-              <ShowText children={item.name} style={styles.text} />
+              <ShowText
+                children={item.name}
+                variant={'mediumPlus'}
+                bold
+                style={styles.text}
+              />
             </View>
           </View>
         </TouchableOpacity>
@@ -95,9 +100,13 @@ const Home = props => {
   return (
     <>
       <Header {...props} text={'Book List'} backDashboard={true} />
-      <View style={styles.flex}>
+      <Container>
         <View style={styles.container}>
-          <ShowText children={'Select Book'} style={styles.head} />
+          <ShowText
+            children={'Select Book'}
+            variant={'FontBold'}
+            style={styles.head}
+          />
           <FlatList
             data={data}
             renderItem={({item, index}) => renderItem(item, index)}
@@ -112,10 +121,8 @@ const Home = props => {
             refreshing={isRefreshing}
           />
         </View>
-        {isAdmin != 'null' && (
-          <FAB />
-        )}
-      </View>
+        {isAdmin != 'null' && <FAB props={props} screen={'AddBook'} />}
+      </Container>
       <Loader loading={isLoading} textshow={'Fetching Data'} />
     </>
   );

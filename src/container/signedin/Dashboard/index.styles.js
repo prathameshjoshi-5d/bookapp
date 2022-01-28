@@ -1,64 +1,48 @@
 import {StyleSheet} from 'react-native';
 import color from '../../../common/color';
-import { SEMIBOLD } from '../../../common/font';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 
 export const DashboardStyle = () => {
   return StyleSheet.create({
-    flex: {
-      backgroundColor: color.backgroundColor,
-      flex: 1,
-    },
     container: {
-      marginHorizontal: 15,
-    },
-    listingview: {
-      marginTop: 10,
-      backgroundColor: 'lightgrey',
-      borderColor: 'grey',
-      borderWidth: 1,
-      borderRadius: 5,
-      justifyContent: 'center',
-    },
-    text: {
-      padding: 10,
-      color: color.textColorBlack,
-    },
-    addButton: {
-      right: 20,
-      position: 'absolute',
-      bottom: 20,
-    },
-    plusImg: {
-      width: 60,
-      height: 60,
+      marginHorizontal: wp('5%'),
     },
     head: {
-      fontSize: 25,
-      fontFamily: SEMIBOLD,
+      fontSize: wp('6.5%'),
+    },
+    listingview: {
+      marginTop: hp('1%'),
+      backgroundColor: 'lightgrey',
+      borderColor: 'grey',
+      borderWidth: hp('0.1%'),
+      borderRadius: wp('1%'),
+      justifyContent: 'center',
     },
     bookview: {
       flexDirection: 'row',
-      marginTop: 10,
+      marginTop: hp('1%'),
       backgroundColor: 'lightgrey',
       borderColor: 'grey',
-      borderWidth: 1,
-      borderRadius: 5,
+      borderWidth: hp('0.1%'),
+      borderRadius: wp('1%'),
       alignItems: 'center',
     },
     image: {
-      height: 40,
-      width: 40,
-      borderRadius: 20,
-      marginVertical: 5,
-      marginLeft: 5,
+      height: hp('5%'),
+      width: wp('10%'),
+      borderRadius: wp('10%'),
+      marginVertical: hp('1.5%'),
+      marginLeft: wp('1.5%'),
     },
     textview: {
-      marginLeft: 10,
+      marginLeft: wp('2%'),
       flex: 1,
     },
-    textbook: {
-      fontSize: 16,
-      fontWeight: 'bold',
+    text: {
+      padding: wp('2%'),
       color: color.textColorBlack,
     },
   });

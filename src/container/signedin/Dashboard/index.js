@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
-  Alert,
   ScrollView,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,7 +15,9 @@ import firebaseSvc from '../../../config/FirebaseSvc';
 import NoData from '../../../components/NoData';
 import {AlertHead} from '../../../common/commonString';
 import FAB from '../../../components/FAB';
-import { DashboardStyle } from './index.styles';
+import {DashboardStyle} from './index.styles';
+import Container from '../../../components/MainView';
+import ShowFlashMessage from '../../../common/ShowFlashMessage';
 
 const Dashboard = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +34,7 @@ const Dashboard = props => {
         setIsLoading(true);
         fetchCategories();
       } else {
-        Alert.alert('Please check your internet connection !!!');
+        ShowFlashMessage('Please check your internet connection !!!');
       }
     });
   };
@@ -54,7 +55,7 @@ const Dashboard = props => {
         setIsRefreshing(false);
       })
       .catch(err => {
-        Alert.alert(AlertHead, 'Something went wrong');
+        ShowFlashMessage('Something went wrong');
         setIsLoading(false);
         setIsRefreshing(false);
       });
@@ -84,7 +85,12 @@ const Dashboard = props => {
     return (
       <View>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate('BookDetails', {item: item,Dashboard: true})}>
+          onPress={() =>
+            props.navigation.navigate('BookDetails', {
+              item: item,
+              Dashboard: true,
+            })
+          }>
           <View style={styles.bookview}>
             {item.image.includes('http') ? (
               <Image
@@ -105,7 +111,12 @@ const Dashboard = props => {
               />
             )}
             <View style={styles.textview}>
-              <ShowText children={item.name} style={styles.textbook} />
+              <ShowText
+                children={item.name}
+                variant={'mediumPlus'}
+                bold
+                style={styles.text}
+              />
             </View>
           </View>
         </TouchableOpacity>
@@ -121,43 +132,48 @@ const Dashboard = props => {
         text={AlertHead}
         back={isAdmin != 'null' ? true : false}
       />
-      <ScrollView style={styles.flex}>
-        <View style={styles.container}>
-          <ShowText children={'Select Category'} style={styles.head} />
-          <FlatList
-            data={data}
-            renderItem={({item, index}) => renderItem(item, index)}
-            keyExtractor={(item, index) => index.toString()}
-            numColumns={1}
-            ListEmptyComponent={<NoData />}
-            contentContainerStyle={{paddingBottom: 30}}
-            onRefresh={() => {
-              setIsRefreshing(true);
-              getAllBooks();
-            }}
-            refreshing={isRefreshing}
-          />
-          {bookData != null && bookData.length != 0 && (
-            <>
-              <ShowText
-                children={'Books you are reading'}
-                style={styles.head}
-              />
-              <FlatList
-                data={bookData}
-                renderItem={({item, index}) => renderBook(item, index)}
-                keyExtractor={(item, index) => index.toString()}
-                numColumns={1}
-                ListEmptyComponent={<NoData />}
-                contentContainerStyle={{paddingBottom: 30}}
-              />
-            </>
-          )}
-        </View>
-        {isAdmin != 'null' && (
-          <FAB />
-        )}
-      </ScrollView>
+      <Container>
+        <ScrollView>
+          <View style={styles.container}>
+            <ShowText
+              children={'Select Category'}
+              variant={'FontBold'}
+              style={styles.head}
+            />
+            <FlatList
+              data={data}
+              renderItem={({item, index}) => renderItem(item, index)}
+              keyExtractor={(item, index) => index.toString()}
+              numColumns={1}
+              ListEmptyComponent={<NoData />}
+              contentContainerStyle={{paddingBottom: 30}}
+              onRefresh={() => {
+                setIsRefreshing(true);
+                getAllBooks();
+              }}
+              refreshing={isRefreshing}
+            />
+            {bookData != null && bookData.length != 0 && (
+              <>
+                <ShowText
+                  children={'Books you are reading'}
+                  variant={'FontBold'}
+                  style={styles.head}
+                />
+                <FlatList
+                  data={bookData}
+                  renderItem={({item, index}) => renderBook(item, index)}
+                  keyExtractor={(item, index) => index.toString()}
+                  numColumns={1}
+                  ListEmptyComponent={<NoData />}
+                  contentContainerStyle={{paddingBottom: 30}}
+                />
+              </>
+            )}
+          </View>
+        </ScrollView>
+        {isAdmin != 'null' && <FAB props={props} screen={'AddCategory'} />}
+      </Container>
       <Loader loading={isLoading} />
     </>
   );

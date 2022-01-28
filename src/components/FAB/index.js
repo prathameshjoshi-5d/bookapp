@@ -7,7 +7,7 @@ const FAB = props => {
   return (
     <TouchableOpacity
       style={styles.addButton}
-      onPress={() => props.navigation.navigate('AddBook')}>
+      onPress={() => props.props.navigation.navigate(props.screen)}>
       <Image
         style={styles.plusImg}
         source={require('../../assets/images/plus.png')}></Image>

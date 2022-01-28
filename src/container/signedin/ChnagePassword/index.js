@@ -1,9 +1,5 @@
 import React, {useState} from 'react';
-import {
-  View,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import NetInfo from '@react-native-community/netinfo';
 import Header from '../../../components/Header';
@@ -13,7 +9,9 @@ import ShowText from '../../../components/Text';
 import InputText from '../../../components/TextInput';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import isEmpty from '../../../validation/isEmpty';
-import { ChangePasswordStyles } from './index.styles';
+import {ChangePasswordStyles} from './index.styles';
+import Container from '../../../components/MainView';
+import ShowFlashMessage from '../../../common/ShowFlashMessage';
 
 const ChangePassword = props => {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,11 +22,11 @@ const ChangePassword = props => {
     const passwordtrim = password.trim();
     const confirmpasswordtrim = confirmPassword.trim();
     if (isEmpty(passwordtrim)) {
-      Alert.alert('Current Password is Required');
+      ShowFlashMessage('Current Password is Required');
       return;
     }
     if (isEmpty(confirmpasswordtrim)) {
-      Alert.alert('New Password is Required');
+      ShowFlashMessage('New Password is Required');
       return;
     }
     let bodyObj = {
@@ -40,7 +38,7 @@ const ChangePassword = props => {
         setIsLoading(true);
         changePass(bodyObj);
       } else {
-        Alert.alert('Please check your internet connection !!!');
+        ShowFlashMessage('Please check your internet connection !!!');
       }
     });
   };
@@ -54,7 +52,7 @@ const ChangePassword = props => {
   return (
     <>
       <Header {...props} text={'Change Password'} back={true} profile={true} />
-      <View style={styles.flex}>
+      <Container>
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps="handled"
           scrollEnabled={true}>
@@ -99,7 +97,7 @@ const ChangePassword = props => {
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>
-      </View>
+      </Container>
       <Loader loading={isLoading} textshow={'Changing Password'} />
     </>
   );

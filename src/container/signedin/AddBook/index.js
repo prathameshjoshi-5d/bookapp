@@ -3,8 +3,6 @@ import {Formik} from 'formik';
 
 import React, {useEffect, useState} from 'react';
 import {
-  Text,
-  Alert,
   View,
   TouchableOpacity,
   Platform,
@@ -28,8 +26,10 @@ import ShowText from '../../../components/Text';
 import InputText from '../../../components/TextInput';
 import firebaseSvc from '../../../config/FirebaseSvc';
 import isEmpty from '../../../validation/isEmpty';
-import {AlertHead} from '../../../common/commonString';
-import { AddBookStyles } from './index.styles';
+import {AddBookStyles} from './index.styles';
+import Container from '../../../components/MainView';
+import ShowFlashMessage from '../../../common/ShowFlashMessage';
+import {useBoolean} from '../../../common/useBoolean';
 
 const AddBookSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
@@ -41,7 +41,7 @@ const AddBook = props => {
 
   const [loading, setLoading] = useState(false);
   const [filePath, setFilePath] = useState({});
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useBoolean(false);
   const [process, setProcess] = useState('');
   const [image, setImage] = useState('');
   const [file, setFile] = useState('');
@@ -64,8 +64,7 @@ const AddBook = props => {
             break;
         }
       })
-      .catch(err => {
-      });
+      .catch(err => {});
     check(PERMISSIONS.ANDROID.CAMERA)
       .then(result => {
         switch (result) {
@@ -80,23 +79,22 @@ const AddBook = props => {
             break;
         }
       })
-      .catch(err => {
-      });
+      .catch(err => {});
   });
 
   const addBook = values => {
     if (isEmpty(image)) {
-      Alert.alert(AlertHead, 'Please select image');
+      ShowFlashMessage('Please select image');
     }
     if (isEmpty(file)) {
-      Alert.alert(AlertHead, 'Please select file');
+      ShowFlashMessage('Please select file');
     }
     NetInfo.fetch().then(state => {
       if (state.isConnected) {
         setLoading(true);
         BookAdd(values);
       } else {
-        Alert.alert('Please check your internet connection !!!');
+        ShowFlashMessage('Please check your internet connection !!!');
       }
     });
   };
@@ -121,7 +119,7 @@ const AddBook = props => {
     } else messg = 'Please enable camera permissions from Settings';
 
     Platform;
-    Alert.alert(AlertHead, messg, [
+    ShowFlashMessage(messg, [
       {
         text: 'OK',
         onPress: () => {
@@ -130,8 +128,7 @@ const AddBook = props => {
       },
       {
         text: 'Cancel',
-        onPress: () => {
-        },
+        onPress: () => {},
       },
     ]);
   };
@@ -159,8 +156,7 @@ const AddBook = props => {
             break;
         }
       })
-      .catch(err => {
-      });
+      .catch(err => {});
   };
 
   const requestIOSPermission = () => {
@@ -179,8 +175,7 @@ const AddBook = props => {
             break;
         }
       })
-      .catch(err => {
-      });
+      .catch(err => {});
   };
 
   const requestAndroidPermission = () => {
@@ -201,8 +196,7 @@ const AddBook = props => {
             break;
         }
       })
-      .catch(err => {
-      });
+      .catch(err => {});
   };
 
   const checkPermissionCamera = () => {
@@ -228,8 +222,7 @@ const AddBook = props => {
             break;
         }
       })
-      .catch(err => {
-      });
+      .catch(err => {});
   };
 
   const requestAndroidCameraPermission = () => {
@@ -250,8 +243,7 @@ const AddBook = props => {
             break;
         }
       })
-      .catch(err => {
-      });
+      .catch(err => {});
   };
 
   const chooseFileCamera = async image => {
@@ -275,7 +267,6 @@ const AddBook = props => {
     };
 
     launchCamera(options, response => {
-
       if (response.didCancel) {
         moveToDeviceSettings();
       } else if (response.errorCode) {
@@ -286,7 +277,7 @@ const AddBook = props => {
         const source = {uri: response.uri};
         setImage(response.base64);
       }
-      setModalVisible(false);
+      setModalVisible.off();
     });
   };
   const chooseFileGallery = async image => {
@@ -311,7 +302,6 @@ const AddBook = props => {
     checkPermission();
     if (permissionGranted) {
       launchImageLibrary(options, response => {
-
         if (response.didCancel) {
         } else if (response.error) {
         } else if (response.customButton) {
@@ -320,7 +310,7 @@ const AddBook = props => {
           const source = {uri: response.uri};
           setImage(response.base64);
         }
-        setModalVisible(false);
+        setModalVisible.off();
       });
     }
   };
@@ -373,7 +363,7 @@ const AddBook = props => {
         .child(`/${itemm}/${filePath[0].name}`)
         .putFile(documentUri)
         .then(snapshot => {
-          Alert.alert(AlertHead, 'File Uploaded Successfully');
+          ShowFlashMessage('File Uploaded Successfully');
           let reference = storage().ref(`/${itemm}/${filePath[0].name}`);
           var sampleImage = reference.getDownloadURL().then(function (url) {
             setFile(url);
@@ -424,8 +414,8 @@ const AddBook = props => {
         handleSubmit,
       }) => (
         <>
-          <Header {...props} text={'Add Book'} back={true} p />
-          <View style={styles.flex}>
+          <Header {...props} text={'Add Book'} back={true} />
+          <Container>
             <KeyboardAwareScrollView
               keyboardShouldPersistTaps="handled"
               scrollEnabled={true}>
@@ -440,7 +430,7 @@ const AddBook = props => {
               />
               <TouchableOpacity
                 style={styles.camera}
-                onPress={() => setModalVisible(true)}>
+                onPress={() => setModalVisible.on()}>
                 <Image source={require('../../../assets/images/camera.png')} />
               </TouchableOpacity>
               <View style={styles.container}>
@@ -512,7 +502,7 @@ const AddBook = props => {
                 </TouchableOpacity> */}
               </View>
             </KeyboardAwareScrollView>
-          </View>
+          </Container>
           <Loader loading={loading} textshow={'Adding Book'} />
           {modalVisible ? (
             <Modal
@@ -520,27 +510,36 @@ const AddBook = props => {
               transparent={true}
               visible={modalVisible}
               onRequestClose={() => {
-                setModalVisible(false);
+                setModalVisible.off();
               }}>
               <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                  <Text style={styles.modalText}>Please Select Option</Text>
+                  <ShowText
+                    children={'Please Select Option'}
+                    style={styles.modalText}
+                  />
                   <View style={{justifyContent: 'flex-start'}}>
                     <TouchableOpacity
-                      style={[styles.button, styles.buttonClose]}
+                      style={styles.button}
                       onPress={() => chooseFileCamera()}>
-                      <Text style={styles.textStyle}>Take Photo...</Text>
+                      <ShowText
+                        children={'Take Photo...'}
+                        style={styles.textStyle}
+                      />
                     </TouchableOpacity>
                     <TouchableOpacity
-                      style={[styles.button, styles.buttonClose]}
+                      style={styles.button}
                       onPress={() => chooseFileGallery()}>
-                      <Text style={styles.textStyle}>Choose from Gallery</Text>
+                      <ShowText
+                        children={'Choose from Gallery'}
+                        style={styles.textStyle}
+                      />
                     </TouchableOpacity>
                   </View>
                   <TouchableOpacity
-                    style={[styles.button1, styles.buttonClose]}
-                    onPress={() => setModalVisible(!modalVisible)}>
-                    <Text style={styles.textStyle}>Cancel</Text>
+                    style={styles.button1}
+                    onPress={() => setModalVisible.off()}>
+                    <ShowText children={'Cancel'} style={styles.textStyle} />
                   </TouchableOpacity>
                 </View>
               </View>

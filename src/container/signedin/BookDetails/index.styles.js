@@ -1,4 +1,7 @@
-import {Dimensions, StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
 import color from '../../../common/color';
 
 export const BookDetailsStyle = () => {
@@ -12,18 +15,17 @@ export const BookDetailsStyle = () => {
     },
     name: {
       color: color.textColorWhite,
-      fontSize: 30,
+      fontSize: wp('6.5%'),
       textAlign: 'center',
     },
     view: {
-      marginHorizontal: 15,
-      marginTop: 5,
+      marginHorizontal: wp('5%'),
+      marginTop: hp('2%'),
     },
     authorview: {
       flex: 1,
       flexDirection: 'row',
-      marginTop: 20,
-      marginBottom: 20,
+      marginVertical: hp('2%'),
     },
     authortitle: {
       color: color.textColorWhite,
